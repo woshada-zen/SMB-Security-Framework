@@ -1,0 +1,208 @@
+# Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
+
+## SMB Security Framework: Strategic Integration of Microsoft 365 and Azure Security
+
+Copyright © 2025 - Based on MSc Dissertation Research
+
+---
+
+This work is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License.
+
+To view a copy of this license, visit: http://creativecommons.org/licenses/by-sa/4.0/
+or send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
+
+---
+
+## You are free to:
+
+**Share** — copy and redistribute the material in any medium or format for any purpose, even commercially.
+
+**Adapt** — remix, transform, and build upon the material for any purpose, even commercially.
+
+The licensor cannot revoke these freedoms as long as you follow the license terms.
+
+---
+
+## Under the following terms:
+
+**Attribution** — You must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
+
+**ShareAlike** — If you remix, transform, or build upon the material, you must distribute your contributions under the same license as the original.
+
+**No additional restrictions** — You may not apply legal terms or technological measures that legally restrict others from doing anything the license permits.
+
+---
+
+## Notices:
+
+You do not have to comply with the license for elements of the material in the public domain or where your use is permitted by an applicable exception or limitation.
+
+No warranties are given. The license may not give you all of the permissions necessary for your intended use. For example, other rights such as publicity, privacy, or moral rights may limit how you use the material.
+
+---
+
+## Attribution Guidelines
+
+When using or adapting this framework, please provide attribution as follows:
+
+### Written Attribution (Academic Papers, Documentation)
+
+```
+Strategic Integration Framework for SMB Security (2025)
+Based on: "Enhancing Cybersecurity for Small and Medium-Sized Businesses
+Through Strategic Integration of Microsoft 365 and Azure Security Services"
+MSc Dissertation, 2025
+Licensed under CC BY-SA 4.0
+Available at: [GitHub Repository URL]
+```
+
+### Code Comments (PowerShell Scripts, ARM Templates)
+
+```powershell
+# Strategic Integration Framework for SMB Security
+# Licensed under CC BY-SA 4.0
+# Source: [GitHub Repository URL]
+# Based on MSc Dissertation Research (2025)
+```
+
+### Presentations and Training Materials
+
+Include attribution on title slide or materials cover page:
+
+```
+This material is based on the Strategic Integration Framework for SMB Security
+Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
+Original research: MSc Dissertation (2025)
+```
+
+---
+
+## Modifications and Derivative Works
+
+If you modify or build upon this framework:
+
+1. **Clearly indicate changes made** - Document what you modified, added, or removed
+2. **Maintain the same license** - Your derivative work must also be licensed under CC BY-SA 4.0
+3. **Provide attribution** - Credit the original work as specified above
+4. **Share your improvements** - We encourage contributing back to the community via pull requests
+
+**Example modification notice:**
+
+```
+Modified from: Strategic Integration Framework for SMB Security (2025)
+Modifications: Added AWS security integration, customized for healthcare sector
+Modified by: [Your Name/Organization] (2026)
+Licensed under: CC BY-SA 4.0 (same as original)
+```
+
+---
+
+## Commercial Use
+
+**YES, commercial use is permitted** under this license, including:
+
+- ✅ Using the framework in commercial consulting engagements
+- ✅ Offering managed services based on the framework
+- ✅ Incorporating framework components into commercial products
+- ✅ Training courses based on framework content
+
+**Requirements for commercial use:**
+- Provide attribution (see guidelines above)
+- If you modify the framework, share your modifications under CC BY-SA 4.0
+- Do not claim exclusive rights or prevent others from using the original work
+
+---
+
+## Disclaimer
+
+THE SOFTWARE AND MATERIALS ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT.
+
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+**Cybersecurity Implementation Note:**
+
+This framework provides guidance and automation for Microsoft 365 and Azure security configuration based on industry best practices and empirical research. However:
+
+- Security configurations must be tailored to your specific organizational context, risk profile, and compliance requirements
+- No security framework eliminates all risks; defense-in-depth and continuous monitoring remain essential
+- Organizations remain responsible for compliance with applicable laws and regulations
+- Testing in pilot environments before production deployment is strongly recommended
+- Regular review and updates are necessary as threat landscapes and platforms evolve
+
+**Consult qualified security professionals** for organization-specific security architecture and compliance advice.
+
+---
+
+## Research Foundation
+
+This framework is based on Design Science Research conducted as part of an MSc dissertation:
+
+**Title:** "Enhancing Cybersecurity for Small and Medium-Sized Businesses Through Strategic Integration of Microsoft 365 and Azure Security Services"
+
+**Research Methodology:**
+- Mixed-methods study (quantitative + qualitative)
+- n=20 SMB participants (50-250 employees)
+- Sectors: Technology, professional services, finance
+- Geographic distribution: UK (50%), Sri Lanka (50%)
+
+**Empirical Validation:**
+- 95% value automation (framework provides ~55% time reduction)
+- 80% prefer phased approach (framework provides 4-phase deployment over 6 months)
+- 95% require non-disruptive integration (framework designed for operational continuity)
+- 100% stakeholder value recognition across all framework components
+
+**Key Findings:**
+- 60% cite legacy systems as primary barrier (framework addresses via phased approach)
+- 55% cite complexity (framework addresses via prescriptive guidance)
+- 50% don't track Microsoft Secure Score (framework establishes monthly review process)
+- 60% lack SIEM capabilities (framework includes Azure Sentinel deployment)
+
+---
+
+## Contact and Contributions
+
+**Framework Maintainer:** [Your Name/Organization]
+**GitHub Repository:** [Repository URL]
+**Email:** [Contact Email]
+
+**We welcome:**
+- Bug reports and issues
+- Feature requests
+- Pull requests for improvements
+- Success stories and case studies
+- Sector-specific adaptations (healthcare, finance, education, etc.)
+- Translations into other languages
+
+**Code of Conduct:**
+- Respectful and professional communication
+- Constructive feedback and collaboration
+- Recognition of diverse perspectives and contexts
+- Focus on community benefit and knowledge sharing
+
+---
+
+## Acknowledgments
+
+This framework was developed through research supported by:
+
+- 20 participating SMB organizations providing empirical validation
+- Design Science Research methodology (Hevner et al., 2004; Peffers et al., 2007)
+- Mixed-methods evaluation approach (Creswell & Plano Clark, 2011)
+- Industry best practices (NIST CSF, NCSC, Microsoft Security)
+- Academic supervision and peer review
+
+Special thanks to the SMB security community for sharing challenges, insights, and feedback that shaped this framework.
+
+---
+
+## Version
+
+**Framework Version:** 1.0.0
+**License Version:** CC BY-SA 4.0
+**Last Updated:** January 2025
+
+For the most current version and updates, visit: [GitHub Repository URL]
+
+---
+
+**Security democratization remains aspirational but achievable—one framework, one organization, one improvement at a time.**

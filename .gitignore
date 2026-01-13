@@ -1,0 +1,71 @@
+# Windows
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Editor files
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Temporary files
+*.tmp
+*.bak
+*.log
+*.cache
+
+# Sensitive data
+*.key
+*.pem
+secrets/
+credentials/
+*.env
+.env.local
+
+# Node modules (if using any automation)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Python cache (if using Python scripts)
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+
+# Build outputs
+dist/
+build/
+*.exe
+*.dll
+*.so
+*.dylib
+
+# IDE specific
+.vs/
+*.user
+*.suo
+*.sln.docstates
+
+# Test outputs
+test-results/
+coverage/
+
+# OS generated
+.Spotlight-V100
+.Trashes
+ehthumbs.db

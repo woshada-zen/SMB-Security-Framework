@@ -1,0 +1,329 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "description": "Azure Sentinel Deployment for SMB Security Framework - Module 4: Security Monitoring",
+    "author": "Strategic Integration Framework for SMB Security",
+    "version": "1.0.0",
+    "license": "CC BY-SA 4.0"
+  },
+  "parameters": {
+    "workspaceName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name for the Log Analytics workspace (e.g., 'sentinel-smb')"
+      },
+      "defaultValue": "sentinel-smb"
+    },
+    "location": {
+      "type": "string",
+      "metadata": {
+        "description": "Azure region for deployment (ukSouth, westEurope, eastUS)"
+      },
+      "defaultValue": "[resourceGroup().location]",
+      "allowedValues": [
+        "ukSouth",
+        "uksouth",
+        "westEurope",
+        "westeurope",
+        "eastUS",
+        "eastus",
+        "australiaEast",
+        "australiaeast"
+      ]
+    },
+    "dataRetentionDays": {
+      "type": "int",
+      "metadata": {
+        "description": "Number of days to retain data in Log Analytics workspace"
+      },
+      "defaultValue": 90,
+      "minValue": 30,
+      "maxValue": 730,
+      "allowedValues": [
+        30,
+        60,
+        90,
+        120,
+        180,
+        365,
+        730
+      ]
+    },
+    "pricingTier": {
+      "type": "string",
+      "metadata": {
+        "description": "Pricing tier for Log Analytics workspace"
+      },
+      "defaultValue": "PerGB2018",
+      "allowedValues": [
+        "PerGB2018",
+        "Free",
+        "Standalone",
+        "PerNode",
+        "Standard",
+        "Premium"
+      ]
+    },
+    "enableDiagnostics": {
+      "type": "bool",
+      "metadata": {
+        "description": "Enable diagnostic settings for the workspace"
+      },
+      "defaultValue": true
+    },
+    "deployDataConnectors": {
+      "type": "bool",
+      "metadata": {
+        "description": "Automatically deploy and configure data connectors"
+      },
+      "defaultValue": true
+    },
+    "deployAnalyticsRules": {
+      "type": "bool",
+      "metadata": {
+        "description": "Deploy pre-configured analytics rules for threat detection"
+      },
+      "defaultValue": true
+    }
+  },
+  "variables": {
+    "workspaceResourceId": "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('workspaceName'))]",
+    "sentinelSolutionName": "[concat('SecurityInsights', '(', parameters('workspaceName'),')')]",
+    "productId": "OMSGallery/SecurityInsights",
+    "product": "OMSGallery/SecurityInsights",
+    "publisher": "Microsoft",
+    "dataConnectors": [
+      "AzureActiveDirectory",
+      "Office365",
+      "MicrosoftDefenderAdvancedThreatProtection",
+      "MicrosoftCloudAppSecurity",
+      "AzureActivity"
+    ],
+    "analyticsRuleNames": [
+      "Multiple Failed Sign-In Attempts",
+      "Impossible Travel Detection",
+      "Sign-In from Anonymous IP",
+      "Privileged Account Activity",
+      "Password Spray Attack",
+      "Ransomware Behavior",
+      "Malware Execution",
+      "Suspicious PowerShell",
+      "Credential Dumping",
+      "Mass Email to External Recipients",
+      "Large Data Download",
+      "DLP Policy Violations",
+      "Admin Role Assignment",
+      "Conditional Access Policy Disabled",
+      "MFA Disabled for User",
+      "Guest User Access Overdue",
+      "Dormant Account Activated",
+      "External Device USB Usage",
+      "Label Downgrade",
+      "Audit Logging Disabled"
+    ]
+  },
+  "resources": [
+    {
+      "type": "Microsoft.OperationalInsights/workspaces",
+      "apiVersion": "2021-12-01-preview",
+      "name": "[parameters('workspaceName')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "sku": {
+          "name": "[parameters('pricingTier')]"
+        },
+        "retentionInDays": "[parameters('dataRetentionDays')]",
+        "features": {
+          "enableLogAccessUsingOnlyResourcePermissions": true,
+          "immediatePurgeDataOn30Days": true
+        },
+        "workspaceCapping": {
+          "dailyQuotaGb": -1
+        },
+        "publicNetworkAccessForIngestion": "Enabled",
+        "publicNetworkAccessForQuery": "Enabled"
+      }
+    },
+    {
+      "type": "Microsoft.OperationsManagement/solutions",
+      "apiVersion": "2015-11-01-preview",
+      "name": "[variables('sentinelSolutionName')]",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[variables('workspaceResourceId')]"
+      ],
+      "plan": {
+        "name": "[variables('sentinelSolutionName')]",
+        "product": "[variables('product')]",
+        "publisher": "[variables('publisher')]",
+        "promotionCode": ""
+      },
+      "properties": {
+        "workspaceResourceId": "[variables('workspaceResourceId')]",
+        "containedResources": []
+      }
+    },
+    {
+      "condition": "[parameters('deployDataConnectors')]",
+      "type": "Microsoft.SecurityInsights/dataConnectors",
+      "apiVersion": "2021-09-01-preview",
+      "name": "[concat(parameters('workspaceName'), '-AzureAD-DataConnector')]",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[variables('workspaceResourceId')]",
+        "[resourceId('Microsoft.OperationsManagement/solutions', variables('sentinelSolutionName'))]"
+      ],
+      "kind": "AzureActiveDirectory",
+      "properties": {
+        "dataTypes": {
+          "logs": {
+            "state": "Enabled"
+          }
+        }
+      }
+    },
+    {
+      "condition": "[parameters('deployDataConnectors')]",
+      "type": "Microsoft.SecurityInsights/dataConnectors",
+      "apiVersion": "2021-09-01-preview",
+      "name": "[concat(parameters('workspaceName'), '-Office365-DataConnector')]",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[variables('workspaceResourceId')]",
+        "[resourceId('Microsoft.OperationsManagement/solutions', variables('sentinelSolutionName'))]"
+      ],
+      "kind": "Office365",
+      "properties": {
+        "dataTypes": {
+          "exchange": {
+            "state": "Enabled"
+          },
+          "sharePoint": {
+            "state": "Enabled"
+          },
+          "teams": {
+            "state": "Enabled"
+          }
+        },
+        "tenantId": "[subscription().tenantId]"
+      }
+    },
+    {
+      "condition": "[and(parameters('deployAnalyticsRules'), parameters('deployDataConnectors'))]",
+      "type": "Microsoft.SecurityInsights/alertRules",
+      "apiVersion": "2021-09-01-preview",
+      "name": "[concat(parameters('workspaceName'), '-FailedSignIns-AnalyticsRule')]",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[variables('workspaceResourceId')]",
+        "[resourceId('Microsoft.OperationsManagement/solutions', variables('sentinelSolutionName'))]"
+      ],
+      "kind": "Scheduled",
+      "properties": {
+        "displayName": "Multiple Failed Sign-In Attempts",
+        "description": "Detects multiple failed sign-in attempts from a single user within 1 hour (possible brute force attack)",
+        "severity": "Medium",
+        "enabled": true,
+        "query": "SigninLogs\n| where ResultType != 0\n| summarize FailedAttempts = count() by UserPrincipalName, IPAddress, bin(TimeGenerated, 1h)\n| where FailedAttempts > 10\n| project TimeGenerated, UserPrincipalName, IPAddress, FailedAttempts",
+        "queryFrequency": "PT1H",
+        "queryPeriod": "PT1H",
+        "triggerOperator": "GreaterThan",
+        "triggerThreshold": 0,
+        "suppressionDuration": "PT1H",
+        "suppressionEnabled": false,
+        "tactics": [
+          "CredentialAccess"
+        ],
+        "techniques": [
+          "T1110"
+        ],
+        "incidentConfiguration": {
+          "createIncident": true,
+          "groupingConfiguration": {
+            "enabled": true,
+            "reopenClosedIncident": false,
+            "lookbackDuration": "PT5H",
+            "matchingMethod": "Selected",
+            "groupByEntities": [
+              "Account"
+            ],
+            "groupByAlertDetails": [],
+            "groupByCustomDetails": []
+          }
+        },
+        "eventGroupingSettings": {
+          "aggregationKind": "AlertPerResult"
+        },
+        "alertDetailsOverride": null,
+        "customDetails": null,
+        "entityMappings": [
+          {
+            "entityType": "Account",
+            "fieldMappings": [
+              {
+                "identifier": "FullName",
+                "columnName": "UserPrincipalName"
+              }
+            ]
+          },
+          {
+            "entityType": "IP",
+            "fieldMappings": [
+              {
+                "identifier": "Address",
+                "columnName": "IPAddress"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "condition": "[and(parameters('deployAnalyticsRules'), parameters('deployDataConnectors'))]",
+      "type": "Microsoft.SecurityInsights/alertRules",
+      "apiVersion": "2021-09-01-preview",
+      "name": "[concat(parameters('workspaceName'), '-ImpossibleTravel-AnalyticsRule')]",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[variables('workspaceResourceId')]",
+        "[resourceId('Microsoft.OperationsManagement/solutions', variables('sentinelSolutionName'))]"
+      ],
+      "kind": "Scheduled",
+      "properties": {
+        "displayName": "Impossible Travel Detection",
+        "description": "Detects sign-ins from geographically distant locations within an impossibly short timeframe",
+        "severity": "High",
+        "enabled": true,
+        "query": "let timeDelta = 2h;\nlet distanceThreshold = 500; // km\nSigninLogs\n| where TimeGenerated > ago(1d)\n| where ResultType == 0\n| project TimeGenerated, UserPrincipalName, IPAddress, Location\n| join kind=inner (\n    SigninLogs\n    | where TimeGenerated > ago(1d)\n    | where ResultType == 0\n    | project TimeGenerated2=TimeGenerated, UserPrincipalName, IPAddress2=IPAddress, Location2=Location\n) on UserPrincipalName\n| where TimeGenerated2 > TimeGenerated and TimeGenerated2 <= TimeGenerated + timeDelta\n| where Location != Location2\n| project UserPrincipalName, FirstSignIn=TimeGenerated, FirstLocation=Location, FirstIP=IPAddress, SecondSignIn=TimeGenerated2, SecondLocation=Location2, SecondIP=IPAddress2",
+        "queryFrequency": "PT1H",
+        "queryPeriod": "P1D",
+        "triggerOperator": "GreaterThan",
+        "triggerThreshold": 0,
+        "suppressionDuration": "PT1H",
+        "suppressionEnabled": false,
+        "severity": "High",
+        "tactics": [
+          "InitialAccess"
+        ],
+        "techniques": [
+          "T1078"
+        ]
+      }
+    }
+  ],
+  "outputs": {
+    "workspaceId": {
+      "type": "string",
+      "value": "[reference(variables('workspaceResourceId'), '2021-12-01-preview').customerId]"
+    },
+    "workspaceResourceId": {
+      "type": "string",
+      "value": "[variables('workspaceResourceId')]"
+    },
+    "sentinelUrl": {
+      "type": "string",
+      "value": "[concat('https://portal.azure.com/#@', subscription().tenantId, '/resource', variables('workspaceResourceId'), '/overview')]"
+    }
+  }
+}
