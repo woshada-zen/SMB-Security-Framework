@@ -23,6 +23,7 @@ $RECYCLE.BIN/
 *.bak
 *.log
 *.cache
+tmpclaude-*-cwd
 
 # Sensitive data
 *.key
