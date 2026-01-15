@@ -2,7 +2,7 @@
 ## Strategic Integration of Microsoft 365 and Azure Security
 
 **Author:** Woshada Dasanayake | woshada@gmail.com
-**Version:** 1.0.0 (December 2025)
+**Version:** 1.0.0 (December 2025) - Updated
 **License:** Open Source - Free to use and adapt
 
 ---
