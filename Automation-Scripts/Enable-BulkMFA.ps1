@@ -10,8 +10,7 @@
 
 .AUTHOR
     Woshada Dasanayake | woshada@gmail.com
-    SMB Security Framework v1.0.0 (January 2025)
-    Based on MSc Cybersecurity Dissertation, 2025
+    SMB Security Framework v1.0.0 (December 2025)
 
 .PARAMETER UserGroup
     Azure AD group name containing users to enable MFA for, or "All Users" for entire organization.

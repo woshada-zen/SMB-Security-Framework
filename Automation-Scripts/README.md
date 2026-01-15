@@ -390,7 +390,7 @@ Review monthly in: Purview compliance portal → Audit
 
 ## Version History
 
-**v1.0.0 (January 2025):**
+**v1.0.0 (December 2025):**
 - Initial release with 10 core scripts
 - Covers all 4 framework modules
 - Tested with PowerShell 7.4, Microsoft Graph SDK 2.10

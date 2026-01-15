@@ -30,8 +30,7 @@
 
 .AUTHOR
     Woshada Dasanayake | woshada@gmail.com
-    SMB Security Framework v1.0.0 (January 2025)
-    Based on MSc Cybersecurity Dissertation, 2025
+    SMB Security Framework v1.0.0 (December 2025)
 
 .NOTES
     Author: Strategic Integration Framework for SMB Security

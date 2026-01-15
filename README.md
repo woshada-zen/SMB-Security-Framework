@@ -2,7 +2,7 @@
 ## Strategic Integration of Microsoft 365 and Azure Security
 
 **Author:** Woshada Dasanayake | woshada@gmail.com
-**Version:** 1.0.0 (January 2025)
+**Version:** 1.0.0 (December 2025)
 **License:** Open Source - Free to use and adapt
 
 ---
@@ -1033,17 +1033,16 @@ If you use this framework in research, publications, or presentations, please ci
 ```
 SMB Security Framework: Strategic Integration of Microsoft 365 and Azure Security
 Author: Woshada Dasanayake (woshada@gmail.com)
-Version: 1.0.0 (January 2025)
+Version: 1.0.0 (December 2025)
 Based on: "Enhancing Cybersecurity for Small and Medium-Sized Businesses
 Through Strategic Integration of Microsoft 365 and Azure Security Services"
-MSc Cybersecurity Dissertation, 2025
 ```
 
 ---
 
 ## Version History
 
-**v1.0.0 (January 2025)**
+**v1.0.0 (December 2025)**
 - Initial release based on dissertation research
 - 4 configuration playbooks (200+ pages)
 - 15+ automation scripts
@@ -1072,5 +1071,5 @@ This framework was developed through Design Science Research with:
 **Security democratization for SMBs—one framework, one organization, one improvement at a time.**
 
 **Author:** Woshada Dasanayake | woshada@gmail.com
-**Version:** 1.0.0 | January 2025
+**Version:** 1.0.0 | December 2025
 **License:** Open Source - Free to use and adapt
