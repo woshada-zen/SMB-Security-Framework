@@ -26,6 +26,11 @@
     .\Create-DLPPolicies.ps1 -PolicySet "GDPR-Only" -Mode "Enforce"
     Deploys only GDPR policy with enforcement.
 
+.AUTHOR
+    Woshada Dasanayake | woshada@gmail.com
+    SMB Security Framework v1.0.0 (January 2025)
+    Based on MSc Cybersecurity Dissertation, 2025
+
 .NOTES
     Author: Strategic Integration Framework for SMB Security
     Version: 1.0.0

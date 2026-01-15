@@ -25,6 +25,11 @@
     .\Deploy-SensitivityLabels.ps1 -LabelSchema "SMB-5Tier" -PublishToAllUsers $false -IncludeSubLabels $true
     Deploys 5-tier schema with sub-labels to pilot group.
 
+.AUTHOR
+    Woshada Dasanayake | woshada@gmail.com
+    SMB Security Framework v1.0.0 (January 2025)
+    Based on MSc Cybersecurity Dissertation, 2025
+
 .NOTES
     Author: Strategic Integration Framework for SMB Security
     Version: 1.0.0

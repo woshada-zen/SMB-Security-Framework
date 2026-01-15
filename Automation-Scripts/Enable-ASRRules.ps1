@@ -25,6 +25,11 @@
     .\Enable-ASRRules.ps1 -RuleSet "SMB-Recommended" -Mode "Block" -ReviewPeriodDays 14
     Enables 8 rules in block mode after 14-day review period.
 
+.AUTHOR
+    Woshada Dasanayake | woshada@gmail.com
+    SMB Security Framework v1.0.0 (January 2025)
+    Based on MSc Cybersecurity Dissertation, 2025
+
 .NOTES
     Author: Strategic Integration Framework for SMB Security
     Version: 1.0.0

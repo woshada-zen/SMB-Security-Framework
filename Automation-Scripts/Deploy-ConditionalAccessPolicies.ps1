@@ -28,6 +28,11 @@
     .\Deploy-ConditionalAccessPolicies.ps1 -PolicySet "SMB-Recommended" -Mode "Enabled" -TrustedIPs "203.0.113.0/24" -EmergencyAccountUPNs "admin-emergency01@contoso.com,admin-emergency02@contoso.com"
     Deploys all policies with enforcement, trusted office IPs, and emergency account exclusions.
 
+.AUTHOR
+    Woshada Dasanayake | woshada@gmail.com
+    SMB Security Framework v1.0.0 (January 2025)
+    Based on MSc Cybersecurity Dissertation, 2025
+
 .NOTES
     Author: Strategic Integration Framework for SMB Security
     Version: 1.0.0

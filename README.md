@@ -1,227 +1,891 @@
-# SMB Security Framework: Strategic Integration of Microsoft 365 and Azure Security
+# SMB Security Framework
+## Strategic Integration of Microsoft 365 and Azure Security
+
+**Author:** Woshada Dasanayake | woshada@gmail.com
+**Version:** 1.0.0 (January 2025)
+**License:** Open Source - Free to use and adapt
+
+---
+
+## 📋 Table of Contents
+
+1. [Overview](#overview)
+2. [Quick Start Guide](#quick-start-guide)
+3. [Step-by-Step Implementation Workflow](#step-by-step-implementation-workflow)
+4. [Framework Components](#framework-components)
+5. [Detailed Usage Instructions](#detailed-usage-instructions)
+6. [Expected Outcomes](#expected-outcomes)
+7. [Troubleshooting](#troubleshooting)
+8. [Support](#support)
+
+---
 
 ## Overview
 
-The **SMB Security Framework** is a comprehensive, prescriptive security implementation framework designed specifically for small and medium-sized businesses (SMBs) with 50-250 employees. Based on empirical research with 20 SMB organizations, this framework addresses the critical **capability-implementation gap**—organizations possess powerful Microsoft 365 and Azure security capabilities through existing subscriptions but struggle to operationalize them effectively.
+### The Problem
 
-### The Challenge
+Small and medium-sized businesses (SMBs) face a critical security paradox:
 
-Research demonstrates that:
-- **100%** of SMBs have Microsoft security capabilities through licensing
-- **60%** cite legacy systems as barriers to implementation
-- **55%** struggle with configuration complexity
-- **50%** don't track their Microsoft Secure Score (critical visibility gap)
-- **70%** dedicate fewer than 5 hours per week to security management
+- ✅ **100%** have Microsoft 365 licenses with powerful security capabilities
+- ❌ **60%** struggle with implementation due to complexity
+- ❌ **55%** cite configuration overwhelm as a barrier
+- ❌ **50%** don't track their security posture (Microsoft Secure Score)
+- ❌ **70%** dedicate fewer than 5 hours per week to security
 
-The challenge is **not** lack of tools or budget—it's **operationalization capacity**.
+**The challenge isn't lack of tools—it's operationalization.**
 
 ### The Solution
 
-This framework provides "consultant in a box" enabling systematic security implementation within typical SMB constraints:
+This framework provides a **"consultant in a box"** enabling systematic security implementation within typical SMB constraints:
 
-- **36-55 hours total implementation** (vs. 85-100 hours manual)
-- **~55% time reduction** through automation
-- **6-month phased deployment** (~2 hours/week sustained effort)
-- **£10,000-25,000 cost savings** (eliminates external consultant dependency)
-- **400-1,100% ROI**
+| Metric | Value |
+|--------|-------|
+| **Total Implementation Time** | 36-55 hours (vs. 85-100 hours manual) |
+| **Time Savings** | ~55% reduction through automation |
+| **Duration** | 6 months (phased deployment) |
+| **Weekly Effort** | 2-5 hours (sustainable) |
+| **Cost Savings** | £10,000-25,000 (eliminates consultant dependency) |
+| **ROI** | 400-1,100% |
+
+---
+
+## Quick Start Guide
+
+### Prerequisites
+
+**Before you begin, ensure you have:**
+
+✅ Microsoft 365 E3, E5, or Business Premium license
+✅ Azure AD Premium P1 (included in E3/E5)
+✅ Global Administrator or Security Administrator role
+✅ PowerShell 5.1+ installed
+✅ 2-5 hours per week available
+✅ Executive sponsorship secured
+
+### Installation
+
+```powershell
+# 1. Clone or download this repository
+git clone https://github.com/[your-repo]/SMB-Security-Framework
+cd SMB-Security-Framework
+
+# 2. Install required PowerShell modules
+Install-Module Microsoft.Graph -Scope CurrentUser -Force
+Install-Module ExchangeOnlineManagement -Scope CurrentUser -Force
+Install-Module Az -Scope CurrentUser -Force
+
+# 3. Set execution policy (if needed)
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+```
+
+### Your First Steps (10 Minutes)
+
+1. **Capture your baseline security posture:**
+   ```powershell
+   cd Assessment-Tools
+   .\Connect-All-Services.ps1
+   .\Capture-SecurityMetrics.ps1 -ReportName "BASELINE_Metrics.txt"
+   ```
+
+2. **Review your baseline report** to understand current gaps
+
+3. **Choose your starting phase** (most organizations start with Phase 1: Identity)
+
+---
+
+## Step-by-Step Implementation Workflow
+
+### 🎯 Complete Implementation Flow
+
+```
+START
+  │
+  ├─> STEP 1: Baseline Assessment (Week 1-2)
+  │     │
+  │     ├─> 1.1: Capture current security metrics
+  │     ├─> 1.2: Identify gaps and priorities
+  │     ├─> 1.3: Secure executive approval
+  │     └─> 1.4: Communicate to organization
+  │
+  ├─> STEP 2: Phase 1 - Identity Foundation (Week 3-6)
+  │     │
+  │     ├─> 2.1: Enable MFA for all users
+  │     ├─> 2.2: Deploy Conditional Access policies
+  │     ├─> 2.3: Configure password protection
+  │     └─> 2.4: Enable Self-Service Password Reset
+  │
+  ├─> STEP 3: Phase 2 - Endpoint Protection (Week 7-12)
+  │     │
+  │     ├─> 3.1: Deploy Defender for Endpoint
+  │     ├─> 3.2: Create compliance policies
+  │     └─> 3.3: Enable Attack Surface Reduction rules
+  │
+  ├─> STEP 4: Phase 3 - Data Governance (Week 13-20)
+  │     │
+  │     ├─> 4.1: Deploy sensitivity labels
+  │     ├─> 4.2: Configure auto-labeling
+  │     └─> 4.3: Create DLP policies
+  │
+  ├─> STEP 5: Phase 4 - Security Monitoring (Week 21-26)
+  │     │
+  │     ├─> 5.1: Enable unified audit logging
+  │     ├─> 5.2: Configure Defender portal
+  │     ├─> 5.3: Deploy Azure Sentinel (optional)
+  │     └─> 5.4: Configure analytics rules
+  │
+  └─> STEP 6: Post-Implementation Assessment
+        │
+        ├─> 6.1: Capture final security metrics
+        ├─> 6.2: Calculate improvements
+        └─> 6.3: Report to stakeholders
+```
+
+---
+
+## STEP 1: Baseline Assessment (Week 1-2, 4-6 hours)
+
+### Objective
+Establish your current security posture to measure improvements and identify priorities.
+
+### 1.1 Capture Current Security Metrics
+
+**Using the Capture-SecurityMetrics.ps1 Tool:**
+
+This automated script captures comprehensive security metrics across your Microsoft 365 environment.
+
+#### **Prerequisites:**
+```powershell
+# Install required modules (one-time setup)
+Install-Module Microsoft.Graph -Scope CurrentUser -Force
+Install-Module ExchangeOnlineManagement -Scope CurrentUser -Force
+Install-Module Az -Scope CurrentUser -Force
+```
+
+#### **Step-by-Step Execution:**
+
+**Method 1: Automated Connection + Capture (Recommended)**
+
+```powershell
+# Navigate to Assessment Tools directory
+cd C:\Path\To\SMB-Security-Framework\Assessment-Tools
+
+# Step 1: Connect to all required services
+.\Connect-All-Services.ps1
+
+# What this does:
+#  ✓ Connects to Microsoft Graph
+#  ✓ Connects to Security & Compliance Center
+#  ✓ Optionally connects to Azure (for Sentinel data)
+#  ✓ Tests all connections are valid
+#  ✓ Provides clear status for each connection
+
+# Step 2: Run the metrics capture
+.\Capture-SecurityMetrics.ps1 -ReportName "BASELINE_Metrics.txt"
+
+# The script captures:
+#  ✓ Microsoft Secure Score
+#  ✓ MFA coverage across all users
+#  ✓ Conditional Access policies
+#  ✓ DLP policies
+#  ✓ Sensitivity labels
+#  ✓ Defender services status
+#  ✓ Azure Sentinel deployment
+#  ✓ Audit logging configuration
+```
+
+**Method 2: Manual Connection + Capture**
+
+```powershell
+# Connect to services manually
+Connect-MgGraph -Scopes "User.Read.All", "Policy.Read.All", "Directory.Read.All", "SecurityEvents.Read.All", "Organization.Read.All"
+Connect-IPPSSession
+Connect-AzAccount  # Optional, for Sentinel data
+
+# Run the capture
+.\Capture-SecurityMetrics.ps1 -ReportName "BASELINE_Metrics.txt"
+```
+
+#### **Understanding Your Baseline Report:**
+
+The script generates a comprehensive report with these sections:
+
+1. **Tenant Information**
+   - Tenant domain
+   - Organization name
+   - Total users
+
+2. **Identity Security**
+   - MFA coverage percentage
+   - Number of users with/without MFA
+   - Conditional Access policy count
+
+3. **Microsoft Secure Score**
+   - Overall score percentage
+   - Points achieved vs. maximum
+   - Score breakdown by category (Identity, Data, Device, Apps, Infrastructure)
+
+4. **Data Protection**
+   - Number of DLP policies
+   - Number of sensitivity labels published
+   - Policy and label details
+
+5. **Defender Services**
+   - Deployment status for each Defender service
+
+6. **Azure Sentinel**
+   - Deployment status
+   - Workspace details (if deployed)
+
+7. **Summary Scorecard**
+   - All key metrics in one view
+   - Overall security maturity assessment
+
+#### **Example Baseline Report Output:**
+
+```
+╔══════════════════════════════════════════════════════════════════╗
+║                  BASELINE SECURITY POSTURE                       ║
+╠══════════════════════════════════════════════════════════════════╣
+║                                                                  ║
+║  Microsoft Secure Score:        28%  (152 / 550 points)         ║
+║  MFA Coverage:                  0%   (0 / 17 users)             ║
+║  Conditional Access Policies:   0 policies                      ║
+║  DLP Policies:                  0 policies                      ║
+║  Sensitivity Labels:            0 published                     ║
+║  Sentinel:                      Not deployed                    ║
+║                                                                  ║
+║  OVERALL MATURITY: LOW - Significant gaps identified            ║
+║                                                                  ║
+╚══════════════════════════════════════════════════════════════════╝
+```
+
+### 1.2 Identify Gaps and Priorities
+
+Based on your baseline, identify critical gaps:
+
+**Common Baseline Findings:**
+- 🔴 **0% MFA coverage** → Priority 1: Phase 1 (Identity)
+- 🔴 **0 Conditional Access policies** → Priority 1: Phase 1
+- 🔴 **0 DLP policies** → Priority 2: Phase 3 (Data Governance)
+- 🔴 **50% don't track Secure Score** → Immediate action: Set up tracking
+- 🔴 **60% lack SIEM** → Priority 3: Phase 4 (Monitoring)
+
+### 1.3 Secure Executive Approval
+
+**Use the baseline report to:**
+1. Show current security posture (often revealing)
+2. Demonstrate risks (e.g., "0% MFA means any compromised password = full breach")
+3. Present framework solution (quantified time/cost)
+4. Request 2-5 hours/week resource allocation
+
+**Template Email:**
+> Subject: Security Posture Assessment - Immediate Action Required
+>
+> I've completed a baseline security assessment using Microsoft's Secure Score. Key findings:
+>
+> - Current Score: 28% (Industry average: 60%)
+> - MFA Coverage: 0% (CRITICAL: All accounts vulnerable to credential theft)
+> - DLP Policies: 0 (No data exfiltration protection)
+>
+> I recommend implementing the SMB Security Framework (attached):
+> - Duration: 6 months
+> - Effort: 2-5 hours/week
+> - Cost: £0 (uses existing Microsoft licenses)
+> - Expected Outcome: 80%+ Secure Score, comprehensive protection
+>
+> Request: Approval to proceed with Phase 1 (Identity Foundation) starting [date]
+
+### 1.4 Communicate to Organization
+
+**Announcement template:**
+```
+Subject: Enhancing Our Security - New Initiative
+
+We're launching a security improvement initiative to protect our data and systems.
+
+What's Changing:
+- Week 3-6: Multi-Factor Authentication (MFA) for all users
+  [Brief explanation of MFA and why it matters]
+
+- Weeks 7-26: Phased security enhancements
+  [High-level overview]
+
+What You Need to Do:
+- [Date]: Install Microsoft Authenticator app
+- [Date]: Complete MFA enrollment
+- [Date]: Attend 15-minute training session
+
+Why This Matters:
+[Explain benefits in business terms, not technical jargon]
+
+Questions? Contact: [IT Contact]
+```
+
+---
+
+## STEP 2: Phase 1 - Identity Foundation (Week 3-6, 8-12 hours)
+
+### Objective
+Establish strong identity security as the foundation for all other controls.
+
+### Why Identity First?
+
+- **Highest Impact:** MFA prevents 99.9% of credential-based attacks
+- **Quick Wins:** Immediate Secure Score improvement
+- **Foundation:** Required for subsequent phases
+- **Low Risk:** Non-disruptive to operations
+
+### 2.1 Enable MFA for All Users (3-4 hours)
+
+**Manual Process (Using Playbook):**
+1. Open `/Playbooks/Module-1-Identity-Foundation.pdf`
+2. Follow Section 1.2: "Bulk MFA Enablement"
+3. Step-by-step with screenshots
+
+**Automated Process (Using Script):**
+
+```powershell
+# Navigate to Automation Scripts
+cd ..\Automation-Scripts
+
+# Review the script first
+Get-Content .\Enable-BulkMFA.ps1
+
+# Execute bulk MFA enablement
+.\Enable-BulkMFA.ps1 -TenantDomain "yourtenant.onmicrosoft.com"
+
+# What this does:
+#  ✓ Enables MFA for all licensed users
+#  ✓ Excludes service accounts (if specified)
+#  ✓ Sends enrollment instructions to users
+#  ✓ Generates rollout report
+
+# Verify deployment
+# Check Azure AD > Users > Per-user MFA
+# Should show 100% enabled
+```
+
+**Time Savings:**
+- Manual: 3-4 hours for 50 users
+- Automated: 15 minutes
+- **Savings: ~90%**
+
+### 2.2 Deploy Conditional Access Policies (2-3 hours)
+
+**What Are Conditional Access Policies?**
+
+Think of them as "smart gates" that enforce security based on conditions:
+- Require MFA when signing in from outside the office
+- Block sign-ins from risky locations
+- Require compliant devices for accessing sensitive data
+
+**The Framework Deploys 6 Recommended Policies:**
+
+1. **Require MFA for All Users** - Universal MFA enforcement
+2. **Block Legacy Authentication** - Prevent insecure protocols
+3. **Require Compliant Devices** - Only managed devices can access
+4. **Require MFA for Risky Sign-ins** - Extra protection for suspicious activity
+5. **Require MFA for Azure Management** - Protect admin portals
+6. **Block High-Risk Users** - Auto-block compromised accounts
+
+**Automated Deployment:**
+
+```powershell
+# Deploy all 6 recommended policies
+.\Deploy-ConditionalAccessPolicies.ps1
+
+# What this does:
+#  ✓ Creates 6 Conditional Access policies
+#  ✓ Configures each with SMB-appropriate settings
+#  ✓ Sets policies to "Report-Only" mode first (safe testing)
+#  ✓ Provides instructions for switching to "Enforce" mode
+
+# Verify deployment
+# Azure AD > Security > Conditional Access
+# Should show 6 policies
+```
+
+**Testing Workflow:**
+
+1. **Week 3:** Deploy in Report-Only mode
+2. **Week 4:** Monitor impact reports (who would be blocked?)
+3. **Week 5:** Adjust exclusions if needed
+4. **Week 6:** Switch to Enforce mode
+
+### 2.3 Configure Password Protection (1 hour)
+
+Follow `/Playbooks/Module-1-Identity-Foundation.pdf` Section 1.3
+
+**Quick Steps:**
+1. Navigate to Azure AD > Security > Authentication methods
+2. Enable Password Protection
+3. Configure custom banned password list
+4. Enable Smart Lockout
+
+### 2.4 Enable Self-Service Password Reset (1 hour)
+
+Follow `/Playbooks/Module-1-Identity-Foundation.pdf` Section 1.4
+
+**Benefits:**
+- Reduces IT helpdesk burden (30-40% of tickets are password resets)
+- Faster user productivity restoration
+- Required for modern security posture
+
+### 2.5 Verify Phase 1 Completion
+
+**Run Metrics Capture Again:**
+
+```powershell
+cd ..\Assessment-Tools
+.\Capture-SecurityMetrics.ps1 -ReportName "PHASE1_Complete.txt"
+```
+
+**Expected Improvements:**
+- MFA Coverage: 0% → **100%** ✅
+- Conditional Access: 0 → **6 policies** ✅
+- Secure Score: 28% → **50-60%** ✅
+
+---
+
+## STEP 3: Phase 2 - Endpoint Protection (Week 7-12, 6-10 hours)
+
+### Objective
+Deploy comprehensive endpoint security and device compliance.
+
+### 3.1 Deploy Defender for Endpoint (4-5 hours)
+
+Follow `/Playbooks/Module-2-Endpoint-Protection.pdf`
+
+**What It Does:**
+- Real-time malware protection
+- Ransomware detection and blocking
+- Device vulnerability assessment
+- Centralized device management
+
+### 3.2 Create Compliance Policies (2 hours)
+
+**Automated Deployment:**
+
+```powershell
+# Note: This script is part of Deploy-Framework.ps1
+# Or follow manual steps in playbook
+```
+
+**Policies Created:**
+- Minimum OS version requirements
+- Encryption requirements
+- Password complexity
+- Device health attestation
+
+### 3.3 Enable Attack Surface Reduction Rules (1-2 hours)
+
+**Automated Deployment:**
+
+```powershell
+cd ..\Automation-Scripts
+.\Enable-ASRRules.ps1
+
+# What this does:
+#  ✓ Enables 10+ ASR rules
+#  ✓ Starts in Audit mode (no disruption)
+#  ✓ Provides impact report after 2 weeks
+#  ✓ Instructions for switching to Block mode
+```
+
+**Verify Phase 2 Completion:**
+
+```powershell
+cd ..\Assessment-Tools
+.\Capture-SecurityMetrics.ps1 -ReportName "PHASE2_Complete.txt"
+```
+
+**Expected Improvements:**
+- Defender for Endpoint: Not Deployed → **Deployed** ✅
+- Compliance Policies: 0 → **5 policies** ✅
+- ASR Rules: 0 → **10+ rules active** ✅
+- Secure Score: 50-60% → **65-70%** ✅
+
+---
+
+## STEP 4: Phase 3 - Data Governance (Week 13-20, 10-15 hours)
+
+### Objective
+Classify and protect sensitive data with DLP and sensitivity labels.
+
+### 4.1 Deploy Sensitivity Labels (3-4 hours)
+
+**Automated Deployment:**
+
+```powershell
+cd ..\Automation-Scripts
+.\Deploy-SensitivityLabels.ps1
+
+# What this does:
+#  ✓ Creates 5-tier label taxonomy:
+#    - Public
+#    - Internal
+#    - Confidential
+#    - Highly Confidential
+#    - Restricted
+#  ✓ Configures protection settings for each
+#  ✓ Publishes labels to all users
+#  ✓ Sets up auto-labeling rules
+```
+
+**Time Savings:**
+- Manual: 3-4 hours
+- Automated: 30 minutes
+- **Savings: 85%**
+
+### 4.2 Configure Auto-Labeling (2-3 hours)
+
+Follow `/Playbooks/Module-3-Data-Governance.pdf` Section 3.2
+
+**Auto-labeling Rules:**
+- Credit card numbers → Highly Confidential
+- Passport numbers → Restricted
+- Keywords ("Confidential", "Internal Only") → Appropriate labels
+
+### 4.3 Create DLP Policies (4-5 hours)
+
+**Automated Deployment:**
+
+```powershell
+.\Create-DLPPolicies.ps1
+
+# What this does:
+#  ✓ Creates 5 DLP policy templates:
+#    1. Financial Data Protection (credit cards, bank accounts)
+#    2. PII Protection (personal identifiable information)
+#    3. Health Data Protection (medical records)
+#    4. Intellectual Property Protection
+#    5. GDPR Compliance Policy
+#  ✓ Configures across Exchange, SharePoint, OneDrive, Teams
+#  ✓ Sets up policy tips and notifications
+#  ✓ Generates deployment report
+```
+
+**Time Savings:**
+- Manual: 4-5 hours per policy (20-25 hours total)
+- Automated: 40 minutes
+- **Savings: 95%**
+
+**Verify Phase 3 Completion:**
+
+```powershell
+cd ..\Assessment-Tools
+.\Capture-SecurityMetrics.ps1 -ReportName "PHASE3_Complete.txt"
+```
+
+**Expected Improvements:**
+- DLP Policies: 0 → **5 policies** ✅
+- Sensitivity Labels: 0 → **5 published** ✅
+- Auto-labeling: 0 → **Active** ✅
+- Secure Score: 65-70% → **75-80%** ✅
+
+---
+
+## STEP 5: Phase 4 - Security Monitoring (Week 21-26, 8-12 hours)
+
+### Objective
+Establish comprehensive security monitoring and automated response.
+
+### 5.1 Enable Unified Audit Logging (1 hour)
+
+Follow `/Playbooks/Module-4-Security-Monitoring.pdf` Section 4.1
+
+### 5.2 Configure Defender Portal (2-3 hours)
+
+**Centralized Security Management:**
+- Navigate to https://security.microsoft.com
+- Configure alert policies
+- Set up notification rules
+- Review dashboards
+
+### 5.3 Deploy Azure Sentinel (6-8 hours, optional for E5)
+
+**Automated Deployment:**
+
+```powershell
+# This requires Azure subscription
+Connect-AzAccount
+
+# Create resource group
+New-AzResourceGroup -Name "SMB-Security-RG" -Location "UK South"
+
+# Deploy Sentinel using ARM template
+cd ..\Automation-Scripts
+New-AzResourceGroupDeployment `
+    -ResourceGroupName "SMB-Security-RG" `
+    -TemplateFile ".\Deploy-Sentinel.json" `
+    -WorkspaceName "SMB-SecurityWorkspace"
+
+# What this does:
+#  ✓ Creates Log Analytics workspace
+#  ✓ Enables Sentinel
+#  ✓ Configures data connectors
+#  ✓ Deploys 20+ analytics rules
+#  ✓ Sets up automated playbooks
+```
+
+**Time Savings:**
+- Manual: 6-8 hours
+- Automated: 30 minutes
+- **Savings: 90%**
+
+### 5.4 Configure Analytics Rules (2-3 hours)
+
+Follow `/Playbooks/Module-4-Security-Monitoring.pdf` Section 4.4
+
+**Verify Phase 4 Completion:**
+
+```powershell
+cd ..\Assessment-Tools
+.\Capture-SecurityMetrics.ps1 -ReportName "PHASE4_Complete.txt"
+```
+
+**Expected Improvements:**
+- Audit Logging: Basic → **Advanced** ✅
+- Sentinel: Not Deployed → **Deployed with analytics** ✅
+- Analytics Rules: 0 → **20+ active** ✅
+- Secure Score: 75-80% → **80-85%+** ✅
+
+---
+
+## STEP 6: Post-Implementation Assessment
+
+### 6.1 Capture Final Security Metrics
+
+```powershell
+cd Assessment-Tools
+.\Capture-SecurityMetrics.ps1 -ReportName "FINAL_Metrics.txt"
+```
+
+### 6.2 Calculate Improvements
+
+**Create Comparison Report:**
+
+```
+╔══════════════════════════════════════════════════════════════════╗
+║              BEFORE vs AFTER FRAMEWORK IMPLEMENTATION            ║
+╠══════════════════════════════════════════════════════════════════╣
+║                                                                  ║
+║  METRIC                    BEFORE    →    AFTER      IMPROVE    ║
+║  ───────────────────────────────────────────────────────────    ║
+║  Secure Score              28%      →    83%         +196%      ║
+║  MFA Coverage              0%       →    100%        +100%      ║
+║  Conditional Access        0        →    6           +6         ║
+║  DLP Policies              0        →    5           +5         ║
+║  Sensitivity Labels        0        →    5           +5         ║
+║  Defender Services         0        →    4           +4         ║
+║  Sentinel                  No       →    Yes         ✅         ║
+║                                                                  ║
+║  IMPLEMENTATION TIME: 48 hours over 6 months                    ║
+║  TIME SAVED: ~42 hours (47% reduction)                          ║
+║  COST SAVINGS: ~£15,000 (vs. external consultant)              ║
+╚══════════════════════════════════════════════════════════════════╝
+```
+
+### 6.3 Report to Stakeholders
+
+**Executive Summary Template:**
+
+> Subject: Security Framework Implementation - Complete (6-Month Results)
+>
+> **Implementation Summary:**
+> Completed comprehensive security framework deployment over 6 months
+>
+> **Results:**
+> - Microsoft Secure Score: 28% → 83% (+196% improvement)
+> - MFA Coverage: 0% → 100% (all 50 users protected)
+> - Data Protection: 0 → 5 DLP policies deployed
+> - Security Monitoring: Azure Sentinel deployed with 24/7 threat detection
+>
+> **Business Impact:**
+> - Cost Avoidance: £15,000 (vs. external consultant)
+> - Time Invested: 48 hours total (vs. estimated 90 hours manual)
+> - Risk Reduction: Comprehensive protection against credential theft, ransomware, data exfiltration
+> - Compliance: Ready for GDPR, ISO 27001, Cyber Essentials audits
+>
+> **Next Steps:**
+> - Monthly Secure Score reviews
+> - Quarterly policy updates
+> - Annual framework refresh
+>
+> Attached: Full metrics report
 
 ---
 
 ## Framework Components
 
-### 1. Configuration Playbooks (200+ pages, 400+ screenshots)
+### 1. Assessment Tools (`/Assessment-Tools/`)
 
-Prescriptive step-by-step implementation guidance across 4 modules:
+| File | Purpose | Usage |
+|------|---------|-------|
+| **Capture-SecurityMetrics.ps1** | Automated security posture capture | Run before/after implementation |
+| **Connect-All-Services.ps1** | Helper to connect to all Microsoft services | Run before metrics capture |
+| **01-Baseline-Security-Questionnaire.md** | Manual assessment questionnaire | Alternative to automated capture |
+| **02-Security-Maturity-Scorecard.md** | Post-implementation maturity scoring | Use after completion |
 
-- **Module 1: Identity Foundation** (58 pages) - MFA, Conditional Access, password protection
-- **Module 2: Endpoint Protection** (47 pages) - Defender deployment, compliance policies, ASR rules
-- **Module 3: Data Governance** (54 pages) - Sensitivity labels, DLP policies, retention
-- **Module 4: Security Monitoring** (41 pages) - Defender portal, Sentinel, analytics, automation
+### 2. Automation Scripts (`/Automation-Scripts/`)
 
-Each playbook includes:
-- ✅ Prerequisites and licensing requirements
-- ✅ Decision trees (E3 vs. E5 features)
-- ✅ Step-by-step procedures with screenshots
-- ✅ Verification checkpoints
-- ✅ Troubleshooting guides
-- ✅ Compliance mapping (NIST CSF, GDPR, Cyber Essentials)
+| Script | Purpose | Time Savings |
+|--------|---------|--------------|
+| **Enable-BulkMFA.ps1** | Bulk MFA enablement | 3-4 hours → 15 min |
+| **Deploy-ConditionalAccessPolicies.ps1** | Deploy 6 CA policies | 2-3 hours → 30 min |
+| **Deploy-SensitivityLabels.ps1** | Deploy 5-tier label schema | 3-4 hours → 30 min |
+| **Create-DLPPolicies.ps1** | Deploy 5 DLP policy templates | 20-25 hours → 40 min |
+| **Enable-ASRRules.ps1** | Enable Attack Surface Reduction | 2 hours → 20 min |
+| **Deploy-Sentinel.json** | Deploy Azure Sentinel (ARM template) | 6-8 hours → 30 min |
+| **Deploy-Framework.ps1** | Master deployment script (all phases) | Use for full deployment |
 
-### 2. Automation Scripts (15+ PowerShell scripts, 3 ARM templates)
+### 3. Governance Templates (`/Governance-Templates/`)
 
-Pre-built automation reducing implementation time by ~55%:
-
-- Bulk MFA enablement
-- Conditional Access policy deployment (6 recommended policies)
-- Defender for Endpoint onboarding
-- Compliance policy creation
-- ASR rules configuration
-- Sensitivity label deployment
-- DLP policy templates
-- Azure Sentinel deployment
-
-**Estimated time savings:** 31-41 hours
-
-### 3. Governance Templates (12+ documents)
-
-Accelerate policy documentation and compliance demonstration:
+Pre-built policy documents ready to customize:
 
 - Master Information Security Policy
 - Acceptable Use Policy
+- Data Classification Policy
+- Password Policy
+- Incident Response Plan
+- Business Continuity Plan
+- Mobile Device Policy
+- Cloud Services Usage Policy
+- Remote Work Policy
+- Third Party Risk Management Policy
+- Change Management Policy
 - RACI Matrix
-- NIST CSF Compliance Mapping
-- GDPR compliance templates
-- Risk register
-- Incident response procedures
-- Change management policy
 
-### 4. Training Materials
+### 4. Playbooks (`/Playbooks/`)
 
-Reduce user resistance and build security awareness:
+Detailed implementation guides with screenshots (200+ pages total):
 
-- 10 video modules (60 minutes total)
-- 8 quick-reference guides (single-page PDFs)
-- 3 executive presentations
+- Module 1: Identity Foundation (58 pages)
+- Module 2: Endpoint Protection (47 pages)
+- Module 3: Data Governance (54 pages)
+- Module 4: Security Monitoring (41 pages)
 
-### 5. Assessment Tools
+### 5. Training Materials (`/Training-Materials/`)
 
-Measure baseline, track progress, demonstrate value:
+User awareness and training resources:
 
-- Baseline Security Questionnaire (30 questions)
-- Post-Implementation Maturity Scorecard (CMM-style levels 1-5)
-- User Awareness Quiz
+- Video modules (10 videos, 60 minutes total)
+- Quick-reference guides (8 PDFs)
+- Executive presentations (3 decks)
+- FAQ documentation
 
 ---
 
-## Quick Start
+## Detailed Usage Instructions
 
-### Prerequisites
+### Using Capture-SecurityMetrics.ps1
 
-**Microsoft 365 Licensing:**
-- Microsoft 365 E3, E5, or Business Premium
-- Azure AD Premium P1 (included in E3/E5)
-- Optional: E5 Security add-on for advanced features
+#### Prerequisites
 
-**Organizational Readiness:**
-- Executive sponsorship secured
-- 2-5 hours weekly capacity available
-- IT admin with Global Administrator or Security Administrator role
+```powershell
+# Install required modules (one-time)
+Install-Module Microsoft.Graph -Scope CurrentUser -Force
+Install-Module ExchangeOnlineManagement -Scope CurrentUser -Force
+Install-Module Az -Scope CurrentUser -Force
+```
 
-**Technical Requirements:**
-- PowerShell 5.1+ with Microsoft Graph PowerShell SDK
-- Azure CLI (for Sentinel deployment)
-- Admin access to Microsoft 365 Admin Center, Azure AD, Defender portals
+#### Basic Usage
 
-### Phase 0: Baseline Assessment (Weeks 1-2, 4-6 hours)
+```powershell
+# Step 1: Connect to services
+.\Connect-All-Services.ps1
 
-1. **Complete Baseline Security Questionnaire** (`/Assessment-Tools/Baseline-Security-Questionnaire.xlsx`)
-2. **Document current state:**
-   - Current MFA coverage
-   - Microsoft Secure Score
-   - Existing Conditional Access policies
-   - Defender service deployment status
-3. **Secure executive approval** (use executive presentation in `/Training-Materials/Presentations/`)
-4. **Communicate launch** to organization
+# Step 2: Run capture
+.\Capture-SecurityMetrics.ps1 -ReportName "MyReport.txt"
+```
 
-### Phase 1: Identity Foundation (Weeks 3-6, 8-12 hours)
+#### Advanced Usage
 
-**Quick Wins - Immediate Security Improvements**
+```powershell
+# Specify custom output path
+.\Capture-SecurityMetrics.ps1 -OutputPath "C:\Reports" -ReportName "Q1_2025_Baseline.txt"
 
-1. **Enable MFA for all users** (3-4 hours)
-   ```powershell
-   # See /Automation-Scripts/Enable-BulkMFA.ps1
-   ./Enable-BulkMFA.ps1 -UserGroup "All Users" -MFAMethod "MicrosoftAuthenticator"
-   ```
+# The script will:
+# 1. Check Microsoft Graph connection
+# 2. Retrieve tenant information
+# 3. Capture identity security metrics (MFA, CA)
+# 4. Capture Microsoft Secure Score
+# 5. Capture data protection metrics (DLP, Labels)
+# 6. Capture Defender services status
+# 7. Capture Azure Sentinel status (if Azure connected)
+# 8. Generate summary scorecard
+# 9. Save report to specified location
+# 10. Offer to open report
+```
 
-2. **Deploy 6 recommended Conditional Access policies** (2-3 hours)
-   ```powershell
-   # See /Automation-Scripts/Deploy-ConditionalAccessPolicies.ps1
-   ./Deploy-ConditionalAccessPolicies.ps1 -PolicySet "SMB-Recommended"
-   ```
+#### Troubleshooting Connection Issues
 
-3. **Configure password protection** (1 hour)
-4. **Enable Self-Service Password Reset** (1 hour)
+**Problem: "DeviceCodeCredential authentication failed"**
 
-**Expected Outcome:** Immediate Secure Score increase, credential attack protection, measurable quick wins
+```powershell
+# Solution: Disconnect and reconnect
+Disconnect-MgGraph
+Connect-MgGraph -Scopes "User.Read.All", "Policy.Read.All", "Directory.Read.All", "SecurityEvents.Read.All", "Organization.Read.All"
 
-**Detailed guidance:** `/Playbooks/Module-1-Identity-Foundation.pdf`
+# Then re-run the script
+.\Capture-SecurityMetrics.ps1 -ReportName "BASELINE.txt"
+```
 
-### Phase 2: Endpoint Protection (Weeks 7-12, 6-10 hours)
+**Problem: "DLP Policies: Data unavailable"**
 
-1. **Deploy Defender for Endpoint** (4-5 hours with automation)
-2. **Create compliance policies** (2 hours)
-3. **Enable ASR rules** (1-2 hours, audit mode first)
+```powershell
+# Solution: Connect to Security & Compliance Center
+Connect-IPPSSession
 
-**Expected Outcome:** Malware protection, device visibility, compliance enforcement
+# Then re-run the script
+.\Capture-SecurityMetrics.ps1 -ReportName "BASELINE.txt"
+```
 
-**Detailed guidance:** `/Playbooks/Module-2-Endpoint-Protection.pdf`
+**Problem: "Sentinel: Data unavailable"**
 
-### Phase 3: Data Governance (Weeks 13-20, 10-15 hours)
+```powershell
+# Solution: Connect to Azure (optional)
+Connect-AzAccount
 
-1. **Deploy 5-tier sensitivity label schema** (3-4 hours with automation)
-2. **Configure auto-labeling** (2-3 hours)
-3. **Create DLP policies** (4-5 hours, 5 templates provided)
+# Then re-run the script
+.\Capture-SecurityMetrics.ps1 -ReportName "BASELINE.txt"
+```
 
-**Expected Outcome:** Data classification, exfiltration prevention, GDPR compliance demonstration
+#### Report Output Explained
 
-**Detailed guidance:** `/Playbooks/Module-3-Data-Governance.pdf`
+**Section 1: Tenant Information**
+- Confirms which tenant you're assessing
+- Shows total licensed users
 
-### Phase 4: Security Monitoring (Weeks 21-26, 8-12 hours)
+**Section 2: Identity Security**
+- **MFA Coverage:** Percentage of users with MFA enabled
+  - Target: 100%
+  - Red Flag: <90%
 
-1. **Enable unified audit logging** (1 hour)
-2. **Configure Defender portal** (2-3 hours)
-3. **Deploy Azure Sentinel** (6-8 hours with ARM template, optional for E5)
-4. **Configure analytics rules** (2-3 hours)
+**Section 3: Microsoft Secure Score**
+- **Overall Score:** Your security posture as percentage
+  - Target: 80%+
+  - Industry Average: 60%
+  - Red Flag: <40%
 
-**Expected Outcome:** Faster threat detection, automated response, comprehensive visibility
+**Section 4: Data Protection**
+- **DLP Policies:** Number of active data loss prevention policies
+  - Target: 5+ (covering financial, PII, health, IP, GDPR)
+  - Red Flag: 0
 
-**Detailed guidance:** `/Playbooks/Module-4-Security-Monitoring.pdf`
+**Section 5: Defender Services**
+- Shows which Defender services are deployed
+  - Target: All 4 services
+  - Minimum: Defender for Endpoint + Office 365
 
----
+**Section 6: Azure Sentinel**
+- SIEM deployment status
+  - Required for: E5 organizations, compliance requirements
+  - Optional for: Small businesses (<50 users)
 
-## Implementation Timeline
-
-| Phase | Focus | Duration | Effort | Key Deliverables | Quick Wins |
-|-------|-------|----------|--------|-----------------|-----------|
-| **Phase 0** | Baseline & Planning | Weeks 1-2 | 4-6 hours | Baseline assessment, executive approval, project plan | Visibility into gaps |
-| **Phase 1** | Identity Foundation | Weeks 3-6 | 8-12 hours | MFA enforcement, 6 CA policies, password protection | Immediate Secure Score increase |
-| **Phase 2** | Endpoint Protection | Weeks 7-12 | 6-10 hours | Defender deployment, compliance policies, ASR rules | Malware protection |
-| **Phase 3** | Data Governance | Weeks 13-20 | 10-15 hours | Sensitivity labels, 5 DLP policies, retention | Data classification |
-| **Phase 4** | Monitoring & Automation | Weeks 21-26 | 8-12 hours | Unified logging, analytics rules, response playbooks | Faster detection |
-| **Total** | **Full Framework** | **6 months** | **36-55 hours** | Complete integrated security program | Measurable improvement |
-
----
-
-## Design Principles
-
-The framework follows five evidence-based design principles:
-
-1. **Prescriptive Over Flexible** - Opinionated defaults based on industry best practices (addresses complexity barrier cited by 55% of SMBs)
-2. **Automation Over Manual** - PowerShell scripts and templates eliminate repetitive work (valued by 95% of SMBs)
-3. **Phased Over Comprehensive** - Manageable increments respecting operational constraints (preferred by 80% of SMBs)
-4. **Evidence Over Assumption** - Built-in metrics and verification (addresses visibility gap: 50% don't track Secure Score)
-5. **Context Over Generic** - Microsoft 365/Azure platform-specific depth maximizing native integration
-
----
-
-## Who Should Use This Framework?
-
-### Ideal Organizations
-
-✅ **Size:** 50-250 employees
-✅ **Licensing:** Microsoft 365 E3, E5, or Business Premium
-✅ **IT Capacity:** 1-5 IT staff dedicating 2-5 hours/week to security
-✅ **Maturity:** Any level (framework adapts to current state)
-✅ **Sectors:** Technology, professional services, finance, healthcare, education
-✅ **Compliance:** GDPR, ISO 27001, Cyber Essentials, industry-specific regulations
-
-### Organizations That Will Benefit Most
-
-- Currently underutilizing Microsoft 365 security features (common: only 70% enforce MFA for all users)
-- Struggling with configuration complexity (55% cite as barrier)
-- Limited IT resources (70% dedicate <5 hours/week to security)
-- Lack internal security expertise (75% cite as barrier)
-- Operating with legacy system constraints (60% cite as barrier)
-- Need to demonstrate compliance (90% subject to at least one regulatory framework)
+**Section 7: Summary Scorecard**
+- All metrics in one view
+- Overall maturity assessment (HIGH/MEDIUM/LOW)
 
 ---
 
@@ -229,209 +893,184 @@ The framework follows five evidence-based design principles:
 
 ### Security Posture Improvements
 
-- **Identity Security:** 70% → 95%+ MFA coverage, 100% comprehensive Conditional Access
-- **Endpoint Protection:** 70% → 95%+ Defender coverage, eliminate low-coverage gaps
-- **Data Governance:** 75% → 100% comprehensive DLP, 40% → 80% auto-labeling
-- **Security Monitoring:** 40% → 100% Sentinel with analytics, 50% → 100% Secure Score tracking
-- **Mean Secure Score:** 66.5% → 80%+ target
+| Metric | Typical Baseline | After Framework | Improvement |
+|--------|------------------|-----------------|-------------|
+| **Microsoft Secure Score** | 28-35% | 80-85% | +150-200% |
+| **MFA Coverage** | 0-30% | 100% | +70-100% |
+| **Conditional Access** | 0-1 policies | 6 policies | +5-6 policies |
+| **DLP Policies** | 0 | 5 policies | +5 policies |
+| **Sensitivity Labels** | 0 | 5 published | +5 labels |
+| **Defender Services** | 0-1 | 4 services | +3-4 services |
+| **Sentinel** | Not deployed | Deployed + analytics | New capability |
 
 ### Operational Benefits
 
-- **Time Savings:** ~55% reduction (31-41 hours saved)
-- **Cost Avoidance:** £10,000-25,000 (external consultants eliminated)
-- **Audit Preparation:** 40-60% time reduction
-- **Incident Response:** Improved MTTD/MTTR
+- **Time Savings:** 42+ hours (47% reduction)
+- **Cost Avoidance:** £10,000-25,000 (consultant fees eliminated)
+- **Faster Audits:** 40-60% audit preparation time reduction
+- **Improved Response:** Mean Time to Detect (MTTD) and Mean Time to Respond (MTTR) improvements
 - **Compliance:** Simplified GDPR, ISO 27001, Cyber Essentials demonstration
 
 ### Business Value
 
 - **ROI:** 400-1,100%
-- **Risk Reduction:** 10% breach probability reduction = £7,500 expected value (avg breach cost £75,000)
-- **Customer Trust:** Demonstrable security posture
-- **Competitive Advantage:** Security as differentiator
-- **Insurance:** Potential premium reductions
+- **Risk Reduction:** 10% breach probability reduction = £7,500 expected value savings
+- **Customer Trust:** Demonstrable security posture for client contracts
+- **Competitive Advantage:** Security as business differentiator
+- **Insurance:** Potential cyber insurance premium reductions
 
 ---
 
-## Key Features
+## Troubleshooting
 
-### ✅ Prescriptive, Not Generic
+### Common Issues and Solutions
 
-Unlike generic security frameworks (NIST CSF, ISO 27001) that provide *what* to do, this framework provides **exactly how** to do it with:
-- Exact configuration settings
-- Step-by-step screenshots
-- Pre-built automation scripts
-- Decision trees for licensing-dependent features
+#### Issue: PowerShell Scripts Won't Run
 
-### ✅ Automation-First
+**Error:** "Running scripts is disabled on this system"
 
-Every repetitive task has a corresponding automation script:
-- Bulk operations (MFA, policy deployment, device onboarding)
-- Infrastructure-as-Code (ARM templates for Sentinel)
-- Consistency enforcement (no manual configuration drift)
+**Solution:**
+```powershell
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+```
 
-### ✅ SMB-Scoped
+#### Issue: Module Not Found
 
-Designed specifically for SMB constraints:
-- 36-55 hour total implementation (not 200+ hours)
-- 6-month phased deployment (not "comprehensive deployment")
-- 2 hours/week sustained effort (not full-time security team)
-- No external consultant dependency
+**Error:** "The term 'Connect-MgGraph' is not recognized"
 
-### ✅ Compliance-Ready
+**Solution:**
+```powershell
+Install-Module Microsoft.Graph -Scope CurrentUser -Force
+Import-Module Microsoft.Graph
+```
 
-Built-in compliance mapping and evidence templates:
-- NIST Cybersecurity Framework
-- GDPR Article 32 technical measures
-- ISO 27001 Annex A controls
-- Cyber Essentials (UK)
-- Industry-specific regulations
+#### Issue: Insufficient Permissions
 
-### ✅ Change Management Integrated
+**Error:** "Authorization_RequestDenied"
 
-Technical deployment with organizational adoption:
-- Executive briefing materials
-- User training modules
-- Communication templates
-- FAQ documentation
-- Pilot group guidance
+**Solution:**
+- Ensure you have Global Administrator or Security Administrator role
+- Check Azure AD > Roles and administrators
+- Contact your tenant administrator if you don't have required permissions
 
----
+#### Issue: MFA Script Fails
 
-## Frequently Asked Questions
+**Error:** "Cannot enable MFA for cloud-only accounts"
 
-**Q: Do I need to complete all 4 phases?**
-A: No. Each phase is independently valuable. Many organizations start with Phase 1 (Identity) for immediate quick wins, then proceed based on priorities. However, full security posture improvement requires all 4 phases.
+**Solution:**
+- Check if you have Azure AD Premium P1 license (required for MFA)
+- Verify licenses: Microsoft 365 Admin Center > Billing > Licenses
+- If missing, upgrade to E3, E5, or Business Premium
 
-**Q: What if I only have Microsoft 365 Business Premium (not E3/E5)?**
-A: Business Premium includes most Phase 1-2 capabilities (MFA, basic Conditional Access, Defender for Endpoint, basic DLP). Phases 3-4 have reduced functionality. The playbooks include decision trees for licensing differences.
+#### Issue: Conditional Access Won't Deploy
 
-**Q: Can I implement faster than 6 months?**
-A: Yes, if you have greater capacity (10+ hours/week). However, 80% of SMBs prefer phased deployment to avoid operational disruption. Faster implementation risks incomplete adoption.
+**Error:** "Conditional Access requires Azure AD Premium"
 
-**Q: We use a Managed Service Provider (MSP). Can we still use this framework?**
-A: Absolutely. 35% of research participants used hybrid MSP models. The framework clarifies internal vs. MSP responsibilities (see RACI matrix templates). MSPs can deliver framework phases as structured service packages.
+**Solution:**
+- Conditional Access requires Azure AD Premium P1 (included in Microsoft 365 E3/E5)
+- Check your licensing: Azure AD > Licenses
+- If you have Business Standard, consider upgrading to Business Premium
 
-**Q: What if we have legacy applications incompatible with modern authentication?**
-A: 60% of SMBs cite legacy systems as barriers. Module 1 includes exception workflows, Conditional Access exclusions with expiry dates, and migration planning guidance.
+#### Issue: DLP Policies Don't Deploy
 
-**Q: Is this framework aligned with industry standards?**
-A: Yes. All configurations map to NIST CSF functions, ISO 27001 controls, and Cyber Essentials requirements. Governance templates include compliance mapping spreadsheets.
+**Error:** "DLP requires E3 or above"
 
----
+**Solution:**
+- Basic DLP: Included in E3, Business Premium
+- Advanced DLP: Requires E5 or E5 Compliance add-on
+- Check `/Playbooks/` for feature comparison by license
 
-## Research Foundation
+#### Issue: Secure Score Not Improving
 
-This framework is based on Design Science Research conducted with 20 SMB organizations:
+**Problem:** Deployed controls but Secure Score unchanged
 
-**Empirical Validation:**
-- 95% value automation (framework provides ~55% time reduction)
-- 80% prefer phased approach (framework provides 4-phase deployment)
-- 95% require non-disruptive integration (framework designed for operational continuity)
-- 80% value pre-configured frameworks (framework provides prescriptive defaults)
-- 100% value recognition across all framework components
-
-**Published Research:**
-- Full dissertation: *"Enhancing Cybersecurity for Small and Medium-Sized Businesses Through Strategic Integration of Microsoft 365 and Azure Security Services"*
-- Mixed-methods study (quantitative + qualitative) with n=20 SMB participants
-- Addresses RQ1 (requirements), RQ2 (framework design), RQ3 (outcomes), RQ4 (barriers/facilitators)
+**Solution:**
+- Secure Score updates every 24-48 hours
+- Wait 2 days after deployment
+- Some improvements require policy enforcement (not just creation)
+- Check Secure Score > Recommended Actions for specific requirements
 
 ---
 
-## Support and Community
+## Support
 
-**Documentation:**
-- `/Playbooks/` - Detailed implementation guides
-- `/Automation-Scripts/README.md` - Script usage instructions
-- Each component includes troubleshooting guides
+### Documentation
 
-**Getting Help:**
+- **Playbooks:** `/Playbooks/` - Detailed step-by-step guides with screenshots
+- **Script Documentation:** Each `.ps1` file has detailed inline comments
+- **Governance Templates:** `/Governance-Templates/README.md` - Template customization guide
+
+### Getting Help
+
+**Author Contact:**
+- **Name:** Woshada Dasanayake
+- **Email:** woshada@gmail.com
+- **Response Time:** Typically within 48 hours
+
+**Community Support:**
 - GitHub Issues: Report bugs, request features, ask questions
-- Community Discussions: Share experiences, ask for advice
-- Contributions: Pull requests welcome (see CONTRIBUTING.md)
+- GitHub Discussions: Share experiences, get advice from other users
 
-**Updates and Maintenance:**
-- Microsoft platform updates reflected in playbooks
-- New automation scripts based on community feedback
-- Quarterly playbook updates for new features
+### Contributing
 
----
+Contributions are welcome! Please:
+1. Fork the repository
+2. Create a feature branch
+3. Submit a pull request with clear description
 
-## Contributing
-
-We welcome contributions from the SMB security community:
-
-- **Playbook improvements:** Additional screenshots, troubleshooting tips, alternative approaches
-- **Automation scripts:** New scripts, optimization, error handling
-- **Governance templates:** Sector-specific adaptations, additional policy templates
-- **Training materials:** Translations, additional quick-references
-- **Success stories:** Share your implementation experience
-
-See `CONTRIBUTING.md` for guidelines.
-
----
-
-## License
-
-This framework is licensed under **Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)**.
-
-**You are free to:**
-- ✅ **Share** - Copy and redistribute in any medium or format
-- ✅ **Adapt** - Remix, transform, and build upon the material for any purpose, even commercially
-
-**Under the following terms:**
-- **Attribution** - Give appropriate credit, provide link to license, indicate if changes were made
-- **ShareAlike** - If you remix, transform, or build upon the material, distribute contributions under same license
-
-See `LICENSE` file for full terms.
+**Areas for contribution:**
+- Additional automation scripts
+- Playbook improvements (screenshots, troubleshooting)
+- Governance template adaptations for specific industries
+- Translation to other languages
 
 ---
 
 ## Citation
 
-If you use this framework in research or publications, please cite:
+If you use this framework in research, publications, or presentations, please cite:
 
 ```
-Strategic Integration Framework for SMB Security (2024)
+SMB Security Framework: Strategic Integration of Microsoft 365 and Azure Security
+Author: Woshada Dasanayake (woshada@gmail.com)
+Version: 1.0.0 (January 2025)
 Based on: "Enhancing Cybersecurity for Small and Medium-Sized Businesses
 Through Strategic Integration of Microsoft 365 and Azure Security Services"
-MSc Dissertation, 2024
-Licensed under CC BY-SA 4.0
+MSc Cybersecurity Dissertation, 2025
 ```
+
+---
+
+## Version History
+
+**v1.0.0 (January 2025)**
+- Initial release based on dissertation research
+- 4 configuration playbooks (200+ pages)
+- 15+ automation scripts
+- 12 governance templates
+- 2 assessment tools (including Capture-SecurityMetrics.ps1)
+- 10 training videos, 8 quick-references
+- Comprehensive README with step-by-step workflow
 
 ---
 
 ## Acknowledgments
 
-This framework was developed through research supported by:
+This framework was developed through Design Science Research with:
 - 20 participating SMB organizations providing empirical validation
-- Design Science Research methodology (Hevner et al., 2004; Peffers et al., 2007)
-- Mixed-methods evaluation (Creswell & Plano Clark, 2011)
+- Mixed-methods evaluation demonstrating effectiveness
 - Industry best practices (NIST CSF, NCSC, Microsoft Security)
 
----
-
-## Version
-
-**Current Version:** 1.0.0 (January 2025)
-
-**Changelog:**
-- v1.0.0 (2025-01): Initial release based on dissertation research
-  - 4 configuration playbooks (200+ pages)
-  - 15+ automation scripts
-  - 12 governance templates
-  - 10 training videos, 8 quick-references
-  - 2 assessment tools
+**Research Findings:**
+- 95% of SMBs value automation (framework provides 55% time reduction)
+- 80% prefer phased approach (framework provides 6-month phased deployment)
+- 95% require non-disruptive implementation (framework designed for operational continuity)
+- 70% willing to participate in pilot study (high acceptance rate)
 
 ---
 
-## Contact
+**Security democratization for SMBs—one framework, one organization, one improvement at a time.**
 
-**Framework Maintainer:** [Your Name/Organization]
-**Email:** [Contact Email]
-**GitHub:** https://github.com/[your-repo]/SMB-Security-Framework
-**Research:** [Link to dissertation/publication]
-
----
-
-**Security democratization remains aspirational but achievable—one framework, one organization, one improvement at a time.**
+**Author:** Woshada Dasanayake | woshada@gmail.com
+**Version:** 1.0.0 | January 2025
+**License:** Open Source - Free to use and adapt
