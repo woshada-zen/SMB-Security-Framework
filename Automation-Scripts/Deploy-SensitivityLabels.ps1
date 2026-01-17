@@ -72,10 +72,19 @@ Write-Log "Include Sub-Labels: $IncludeSubLabels" "INFO"
 # Connect to Security & Compliance Center
 try {
     Write-Log "Connecting to Security & Compliance Center..." "INFO"
-    Connect-IPPSSession -ErrorAction Stop
+    Write-Log "If prompted, sign in with your admin credentials..." "INFO"
+
+    # Check if already connected
+    $ExistingSession = Get-PSSession | Where-Object { $_.ConfigurationName -eq "Microsoft.Exchange" -and $_.State -eq "Opened" }
+    if (-not $ExistingSession) {
+        Connect-IPPSSession -WarningAction SilentlyContinue -ErrorAction Stop
+    } else {
+        Write-Log "Using existing Security & Compliance session" "INFO"
+    }
     Write-Log "Successfully connected" "INFO"
 } catch {
     Write-Log "Failed to connect: $_" "ERROR"
+    Write-Log "TIP: Try running 'Connect-IPPSSession' manually first, then re-run this script" "WARN"
     exit 1
 }
 

@@ -119,6 +119,8 @@ try {
     $OMAURISettings = @()
     $ActionValue = if ($Mode -eq "Audit") { 2 } else { 1 }  # 1 = Block, 2 = Audit, 0 = Disabled
 
+    Write-Log "Building OMA-URI settings for $($RulesToDeploy.Count) ASR rules..." "INFO"
+
     foreach ($Rule in $RulesToDeploy) {
         $OMAURISettings += @{
             "@odata.type" = "#microsoft.graph.omaSettingString"
@@ -127,7 +129,10 @@ try {
             omaUri = "./Device/Vendor/MSFT/Policy/Config/Defender/AttackSurfaceReductionRules"
             value = "$($Rule.Key)=$ActionValue"
         }
+        Write-Log "  Added rule: $($Rule.Value)" "INFO"
     }
+
+    Write-Log "Successfully built $($OMAURISettings.Count) OMA-URI settings" "INFO"
 
     # Create configuration policy
     $PolicyName = "ASR Rules - $RuleSet - $Mode Mode"
@@ -165,20 +170,41 @@ try {
                 omaSettings = $OMAURISettings
             }
 
+            # Validate configuration before creation
+            if ($OMAURISettings.Count -eq 0) {
+                Write-Log "Error: No OMA-URI settings to deploy" "ERROR"
+                exit 1
+            }
+
+            Write-Log "Creating policy with $($OMAURISettings.Count) OMA-URI settings..." "INFO"
+
             try {
                 $NewPolicy = New-MgDeviceManagementDeviceConfiguration -BodyParameter $CustomConfigParams
-                Write-Log "Successfully created ASR policy: $($NewPolicy.Id)" "INFO"
 
-                # Assign to all devices
-                Write-Log "Assigning policy to all devices..." "INFO"
-                $AssignmentParams = @{
-                    target = @{
-                        "@odata.type" = "#microsoft.graph.allDevicesAssignmentTarget"
+                # Verify policy was created and has an ID
+                if ($NewPolicy -and $NewPolicy.Id) {
+                    Write-Log "Successfully created ASR policy: $($NewPolicy.Id)" "INFO"
+
+                    # Assign to all devices
+                    Write-Log "Assigning policy to all devices..." "INFO"
+                    $AssignmentParams = @{
+                        "@odata.type" = "#microsoft.graph.deviceConfigurationAssignment"
+                        target = @{
+                            "@odata.type" = "#microsoft.graph.allDevicesAssignmentTarget"
+                        }
                     }
-                }
 
-                New-MgDeviceManagementDeviceConfigurationAssignment -DeviceConfigurationId $NewPolicy.Id -BodyParameter $AssignmentParams
-                Write-Log "Successfully assigned policy to all devices" "INFO"
+                    try {
+                        New-MgDeviceManagementDeviceConfigurationAssignment -DeviceConfigurationId $NewPolicy.Id -BodyParameter $AssignmentParams
+                        Write-Log "Successfully assigned policy to all devices" "INFO"
+                    } catch {
+                        Write-Log "Error assigning policy: $_" "ERROR"
+                        Write-Log "Policy created but assignment failed - you can assign manually in Intune portal" "WARN"
+                    }
+                } else {
+                    Write-Log "Error: Policy creation returned null or empty ID" "ERROR"
+                    Write-Log "Policy may have been created but ID not returned - check Intune portal" "WARN"
+                }
             } catch {
                 Write-Log "Error creating policy: $_" "ERROR"
             }

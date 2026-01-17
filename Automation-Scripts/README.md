@@ -106,23 +106,49 @@ Connect-AzAccount
 ### Module 2: Endpoint Protection
 
 #### Deploy-DefenderForEndpoint.ps1
-**Purpose:** Bulk onboard devices to Microsoft Defender for Endpoint
+**Purpose:** Deploy Microsoft Defender for Endpoint policies via Intune (EDR, ASR, Antivirus, Firewall, Security Baselines)
 
 **Parameters:**
-- `-DeviceGroup` (Required): Azure AD device group name or "All-Windows-Devices"
-- `-OnboardingMethod` (Required): "Intune" (cloud), "SCCM" (on-prem), "GPO" (hybrid)
-- `-SenseData` (Optional): Path to onboarding package from Defender portal
+- `-PolicyPrefix` (Optional): Prefix for policy names (default: "SMB")
 
 **Usage:**
 ```powershell
-# Cloud-based onboarding via Intune
-.\Deploy-DefenderForEndpoint.ps1 -DeviceGroup "All-Windows-Devices" -OnboardingMethod "Intune"
+# Deploy all 7 Defender for Endpoint policies
+.\Deploy-DefenderForEndpoint.ps1
 
-# On-premises onboarding via SCCM
-.\Deploy-DefenderForEndpoint.ps1 -DeviceGroup "SCCM-Managed-Devices" -OnboardingMethod "SCCM" -SenseData "C:\Temp\WindowsDefenderATPOnboardingPackage.zip"
+# With custom prefix
+.\Deploy-DefenderForEndpoint.ps1 -PolicyPrefix "Contoso"
 ```
 
-**Time Savings:** 4-5 hours for 50+ devices
+**Policies Created:**
+1. EDR Configuration (Endpoint Detection & Response)
+2. ASR Rules (Attack Surface Reduction)
+3. Windows Security Baseline
+4. Microsoft Edge Security Baseline
+5. Microsoft 365 Apps Security Baseline
+6. Antivirus Policy
+7. Firewall Policy
+
+**Time Savings:** 4-5 hours
+
+---
+
+#### Enable-ASRRules-v2.ps1
+**Purpose:** Enable Attack Surface Reduction rules via Intune Settings Catalog
+
+**Parameters:**
+- `-Mode` (Required): "Audit" (test mode), "Block" (enforce)
+
+**Usage:**
+```powershell
+# Deploy in Audit mode first (recommended)
+.\Enable-ASRRules-v2.ps1 -Mode "Audit"
+
+# After testing, enable enforcement
+.\Enable-ASRRules-v2.ps1 -Mode "Block"
+```
+
+**Time Savings:** 1-2 hours
 
 ---
 
@@ -130,13 +156,13 @@ Connect-AzAccount
 **Purpose:** Create device compliance policies for Windows, macOS, iOS, Android
 
 **Parameters:**
-- `-PolicySet` (Required): "SMB-Baseline" (recommended settings), "Strict" (enhanced security), "Minimal" (basic only)
-- `-Platforms` (Optional): "Windows,macOS,iOS,Android" (default: all platforms)
+- `-PolicySet` (Required): "SMB-Baseline" (recommended), "Strict", "Minimal"
+- `-Platforms` (Optional): "All", "Windows", "macOS", "iOS", "Android"
 
 **Usage:**
 ```powershell
 # Deploy baseline compliance policies for all platforms
-.\Create-CompliancePolicies.ps1 -PolicySet "SMB-Baseline"
+.\Create-CompliancePolicies.ps1 -PolicySet "SMB-Baseline" -Platforms "All"
 
 # Deploy strict policies for Windows only
 .\Create-CompliancePolicies.ps1 -PolicySet "Strict" -Platforms "Windows"
@@ -146,24 +172,40 @@ Connect-AzAccount
 
 ---
 
-#### Enable-ASRRules.ps1
-**Purpose:** Enable Attack Surface Reduction rules
+#### Configure-WindowsUpdateRings.ps1
+**Purpose:** Configure Windows Update rings for phased deployment
 
 **Parameters:**
-- `-RuleSet` (Required): "SMB-Recommended" (8 key rules), "All" (all 16 rules)
-- `-Mode` (Required): "Audit" (test mode), "Block" (enforce)
-- `-ReviewPeriodDays` (Optional): Days to review audit logs before enforcement (default: 14)
+- `-RingConfiguration` (Optional): "Standard" (default), "Fast", "Slow"
 
 **Usage:**
 ```powershell
-# Week 7-9: Enable in Audit mode
-.\Enable-ASRRules.ps1 -RuleSet "SMB-Recommended" -Mode "Audit"
-
-# Week 10-12: Review audit logs, then enable enforcement
-.\Enable-ASRRules.ps1 -RuleSet "SMB-Recommended" -Mode "Block" -ReviewPeriodDays 14
+# Deploy standard update rings
+.\Configure-WindowsUpdateRings.ps1 -RingConfiguration "Standard"
 ```
 
-**Time Savings:** 1-2 hours
+**Time Savings:** 1 hour
+
+---
+
+#### Create-AppProtectionPolicies.ps1
+**Purpose:** Create Mobile Application Management (MAM) policies for iOS and Android BYOD
+
+**Parameters:**
+- `-ProtectionLevel` (Required): "Standard", "High", "Basic"
+- `-Platforms` (Optional): "All", "iOS", "Android"
+- `-WipeAfterDays` (Optional): Days before data wipe (default: 90)
+
+**Usage:**
+```powershell
+# Deploy standard protection for all platforms
+.\Create-AppProtectionPolicies.ps1 -ProtectionLevel "Standard" -Platforms "All"
+
+# Deploy high protection for iOS only
+.\Create-AppProtectionPolicies.ps1 -ProtectionLevel "High" -Platforms "iOS" -WipeAfterDays 60
+```
+
+**Time Savings:** 2 hours
 
 ---
 
@@ -218,7 +260,97 @@ Connect-AzAccount
 
 ---
 
+#### Create-RetentionPolicies.ps1
+**Purpose:** Create retention policies for email, documents, and Teams
+
+**Parameters:**
+- `-EmailRetentionYears` (Optional): Email retention period (default: 7)
+- `-DocumentRetentionYears` (Optional): Document retention period (default: 5)
+- `-TeamsRetentionYears` (Optional): Teams retention period (default: 1)
+
+**Usage:**
+```powershell
+# Deploy with default retention periods
+.\Create-RetentionPolicies.ps1
+
+# Custom retention periods
+.\Create-RetentionPolicies.ps1 -EmailRetentionYears 7 -DocumentRetentionYears 5 -TeamsRetentionYears 1
+```
+
+**Policies Created:**
+1. Email Retention - 7 Years (GDPR compliance)
+2. Document Retention - 5 Years (SharePoint/OneDrive)
+3. Teams Retention - 1 Year (storage management)
+4. Restricted Data - 90 Days (minimize exposure)
+
+**Time Savings:** 1-2 hours
+
+---
+
 ### Module 4: Security Monitoring
+
+#### Enable-UnifiedAuditLog.ps1
+**Purpose:** Enable organization-wide audit logging with extended retention
+
+**Parameters:**
+- `-RetentionDays` (Optional): 90, 180, or 365 (default: 365)
+- `-EnableMailboxAudit` (Optional): Enable mailbox auditing (default: $true)
+
+**Usage:**
+```powershell
+# Enable with 365-day retention
+.\Enable-UnifiedAuditLog.ps1 -RetentionDays 365 -EnableMailboxAudit $true
+```
+
+**What's Captured:**
+- User sign-in activity (success/failure)
+- File access in SharePoint/OneDrive
+- Email send/receive activity
+- Admin configuration changes
+- Role assignments and permission changes
+- MFA events and Conditional Access
+
+**Time Savings:** 1 hour
+
+---
+
+#### Configure-DefenderPortal.ps1
+**Purpose:** Configure Microsoft Defender portal settings and capture Secure Score baseline
+
+**Parameters:**
+- `-SecurityTeamEmail` (Optional): Email for security notifications
+
+**Usage:**
+```powershell
+# Configure with notification email
+.\Configure-DefenderPortal.ps1 -SecurityTeamEmail "security@contoso.com"
+
+# Configure without email
+.\Configure-DefenderPortal.ps1
+```
+
+**Time Savings:** 2-3 hours
+
+---
+
+#### Deploy-Sentinel.ps1
+**Purpose:** Deploy Azure Sentinel via PowerShell (requires Azure subscription)
+
+**Parameters:**
+- `-ResourceGroupName` (Required): Azure resource group name
+- `-WorkspaceName` (Optional): Log Analytics workspace name (default: sentinel-smb)
+- `-Location` (Optional): Azure region (default: uksouth)
+- `-RetentionDays` (Optional): Data retention 30-730 days (default: 90)
+
+**Usage:**
+```powershell
+# Deploy Sentinel
+.\Deploy-Sentinel.ps1 -ResourceGroupName "rg-security" -WorkspaceName "sentinel-smb" -Location "uksouth" -RetentionDays 90
+```
+
+**Time Savings:** 6-8 hours
+
+---
 
 #### Deploy-Sentinel.json (ARM Template)
 **Purpose:** One-click Azure Sentinel deployment with pre-configured data connectors and analytics rules
@@ -231,16 +363,11 @@ Connect-AzAccount
 **Usage:**
 ```powershell
 # Deploy via Azure CLI
-az deployment group create \
-  --resource-group rg-security \
-  --template-file Deploy-Sentinel.json \
-  --parameters workspaceName=sentinel-smb location=ukSouth dataRetentionDays=365
+az deployment group create --resource-group rg-security --template-file Deploy-Sentinel.json --parameters workspaceName=sentinel-smb location=ukSouth dataRetentionDays=365
 
 # Or deploy via PowerShell
 New-AzResourceGroupDeployment -ResourceGroupName "rg-security" -TemplateFile "Deploy-Sentinel.json" -workspaceName "sentinel-smb" -location "ukSouth" -dataRetentionDays 365
 ```
-
-**Time Savings:** 6-8 hours
 
 **Template Includes:**
 - Log Analytics workspace

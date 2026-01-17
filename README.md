@@ -716,63 +716,163 @@ cd Assessment-Tools
 
 ---
 
+## Repository Structure
+
+```
+SMB-Security-Framework/
+├── README.md
+├── EXAMPLE-DEPLOYMENT-GUIDE.md
+│
+├── Assessment-Tools/
+│   ├── Capture-SecurityMetrics.ps1
+│   ├── Connect-All-Services.ps1
+│   ├── 01-Baseline-Security-Questionnaire.md
+│   ├── 02-Security-Maturity-Scorecard.md
+│   └── README.md
+│
+├── Automation-Scripts/
+│   ├── README.md
+│   ├── Enable-BulkMFA.ps1
+│   ├── Deploy-ConditionalAccessPolicies.ps1
+│   ├── Phase1-Monitor-MFA-Enrollment.ps1
+│   ├── Deploy-DefenderForEndpoint.ps1
+│   ├── Enable-ASRRules.ps1
+│   ├── Enable-ASRRules-v2.ps1
+│   ├── Create-CompliancePolicies.ps1
+│   ├── Configure-WindowsUpdateRings.ps1
+│   ├── Create-AppProtectionPolicies.ps1
+│   ├── Deploy-SensitivityLabels.ps1
+│   ├── Create-DLPPolicies.ps1
+│   ├── Create-RetentionPolicies.ps1
+│   ├── Enable-UnifiedAuditLog.ps1
+│   ├── Configure-DefenderPortal.ps1
+│   ├── Deploy-Sentinel.ps1
+│   ├── Deploy-Sentinel.json
+│   └── Deploy-Framework.ps1
+│
+├── Implementation-Guides/
+│   ├── 00-Master-Implementation-Guide.md
+│   ├── Phase-0-Baseline-Assessment.md
+│   ├── Phase-1-Identity-Foundation.md
+│   └── Phase-2-Endpoint-Protection.md
+│
+├── Playbooks/
+│   ├── Module-1-Identity-Foundation.md
+│   ├── Module-2-Endpoint-Protection.md
+│   ├── Module-3-Data-Governance.md
+│   └── Module-4-Security-Monitoring.md
+│
+├── Governance-Templates/
+│   ├── Master-Information-Security-Policy.md
+│   ├── Acceptable-Use-Policy.md
+│   ├── Data-Classification-Policy.md
+│   ├── Password-Policy.md
+│   ├── Incident-Response-Plan.md
+│   ├── Business-Continuity-Plan.md
+│   ├── Mobile-Device-Policy.md
+│   ├── Cloud-Services-Usage-Policy.md
+│   ├── Remote-Work-Security-Policy.md
+│   ├── Third-Party-Risk-Management-Policy.md
+│   ├── RACI-Matrix-Template.md
+│   └── Security-Awareness-Training-Tracker.md
+│
+└── Training-Materials/
+    ├── README.md
+    ├── Video-Scripts/
+    ├── Quick-References/
+    └── Presentations/
+```
+
+---
+
 ## Framework Components
 
 ### 1. Assessment Tools (`/Assessment-Tools/`)
 
-| File | Purpose | Usage |
-|------|---------|-------|
-| **Capture-SecurityMetrics.ps1** | Automated security posture capture | Run before/after implementation |
-| **Connect-All-Services.ps1** | Helper to connect to all Microsoft services | Run before metrics capture |
-| **01-Baseline-Security-Questionnaire.md** | Manual assessment questionnaire | Alternative to automated capture |
-| **02-Security-Maturity-Scorecard.md** | Post-implementation maturity scoring | Use after completion |
+| File | Purpose |
+|------|---------|
+| Capture-SecurityMetrics.ps1 | Automated security posture capture |
+| Connect-All-Services.ps1 | Connect to Microsoft services |
+| 01-Baseline-Security-Questionnaire.md | Manual assessment |
+| 02-Security-Maturity-Scorecard.md | Post-implementation scoring |
 
-### 2. Automation Scripts (`/Automation-Scripts/`)
+### 2. Automation Scripts (`/Automation-Scripts/`) - 16 Scripts
 
-| Script | Purpose | Time Savings |
-|--------|---------|--------------|
-| **Enable-BulkMFA.ps1** | Bulk MFA enablement | 3-4 hours → 15 min |
-| **Deploy-ConditionalAccessPolicies.ps1** | Deploy 6 CA policies | 2-3 hours → 30 min |
-| **Deploy-SensitivityLabels.ps1** | Deploy 5-tier label schema | 3-4 hours → 30 min |
-| **Create-DLPPolicies.ps1** | Deploy 5 DLP policy templates | 20-25 hours → 40 min |
-| **Enable-ASRRules.ps1** | Enable Attack Surface Reduction | 2 hours → 20 min |
-| **Deploy-Sentinel.json** | Deploy Azure Sentinel (ARM template) | 6-8 hours → 30 min |
-| **Deploy-Framework.ps1** | Master deployment script (all phases) | Use for full deployment |
+**Phase 1: Identity Foundation**
 
-### 3. Governance Templates (`/Governance-Templates/`)
+| Script | Purpose |
+|--------|---------|
+| Enable-BulkMFA.ps1 | Bulk MFA enablement |
+| Deploy-ConditionalAccessPolicies.ps1 | Deploy 6 CA policies |
+| Phase1-Monitor-MFA-Enrollment.ps1 | Monitor MFA enrollment |
 
-Pre-built policy documents ready to customize:
+**Phase 2: Endpoint Protection**
 
-- Master Information Security Policy
-- Acceptable Use Policy
-- Data Classification Policy
-- Password Policy
-- Incident Response Plan
-- Business Continuity Plan
-- Mobile Device Policy
-- Cloud Services Usage Policy
-- Remote Work Policy
-- Third Party Risk Management Policy
-- Change Management Policy
-- RACI Matrix
+| Script | Purpose |
+|--------|---------|
+| Deploy-DefenderForEndpoint.ps1 | Deploy 7 Defender policies |
+| Enable-ASRRules-v2.ps1 | Attack Surface Reduction rules |
+| Create-CompliancePolicies.ps1 | Device compliance policies |
+| Configure-WindowsUpdateRings.ps1 | Windows Update rings |
+| Create-AppProtectionPolicies.ps1 | iOS/Android MAM policies |
+
+**Phase 3: Data Governance**
+
+| Script | Purpose |
+|--------|---------|
+| Deploy-SensitivityLabels.ps1 | 5-tier sensitivity labels |
+| Create-DLPPolicies.ps1 | 5 DLP policies |
+| Create-RetentionPolicies.ps1 | 4 retention policies |
+
+**Phase 4: Security Monitoring**
+
+| Script | Purpose |
+|--------|---------|
+| Enable-UnifiedAuditLog.ps1 | 365-day audit logging |
+| Configure-DefenderPortal.ps1 | Defender configuration |
+| Deploy-Sentinel.ps1 | Azure Sentinel deployment |
+| Deploy-Sentinel.json | Sentinel ARM template |
+
+### 3. Implementation Guides (`/Implementation-Guides/`)
+
+| Guide | Content |
+|-------|---------|
+| 00-Master-Implementation-Guide.md | Overall framework guidance |
+| Phase-0-Baseline-Assessment.md | Pre-implementation assessment |
+| Phase-1-Identity-Foundation.md | MFA and Conditional Access |
+| Phase-2-Endpoint-Protection.md | Defender, compliance, MAM |
 
 ### 4. Playbooks (`/Playbooks/`)
 
-Detailed implementation guides with screenshots (200+ pages total):
+| Playbook | Content |
+|----------|---------|
+| Module-1-Identity-Foundation.md | MFA, CA, password protection |
+| Module-2-Endpoint-Protection.md | Defender, ASR, compliance |
+| Module-3-Data-Governance.md | Labels, DLP, retention |
+| Module-4-Security-Monitoring.md | Audit, Sentinel, Secure Score |
 
-- Module 1: Identity Foundation (58 pages)
-- Module 2: Endpoint Protection (47 pages)
-- Module 3: Data Governance (54 pages)
-- Module 4: Security Monitoring (41 pages)
+### 5. Governance Templates (`/Governance-Templates/`) - 12 Documents
 
-### 5. Training Materials (`/Training-Materials/`)
+- Master-Information-Security-Policy.md
+- Acceptable-Use-Policy.md
+- Data-Classification-Policy.md
+- Password-Policy.md
+- Incident-Response-Plan.md
+- Business-Continuity-Plan.md
+- Mobile-Device-Policy.md
+- Cloud-Services-Usage-Policy.md
+- Remote-Work-Security-Policy.md
+- Third-Party-Risk-Management-Policy.md
+- RACI-Matrix-Template.md
+- Security-Awareness-Training-Tracker.md
 
-User awareness and training resources:
+### 6. Training Materials (`/Training-Materials/`)
 
-- Video modules (10 videos, 60 minutes total)
-- Quick-reference guides (8 PDFs)
-- Executive presentations (3 decks)
-- FAQ documentation
+| Folder | Contents |
+|--------|----------|
+| Video-Scripts/ | Cybersecurity awareness, MFA setup, Phishing |
+| Quick-References/ | Phishing checklist, Data classification, MFA guide |
+| Presentations/ | Executive security briefing |
 
 ---
 
