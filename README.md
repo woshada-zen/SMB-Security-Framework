@@ -750,12 +750,6 @@ SMB-Security-Framework/
 │   ├── Deploy-Sentinel.json
 │   └── Deploy-Framework.ps1
 │
-├── Implementation-Guides/
-│   ├── 00-Master-Implementation-Guide.md
-│   ├── Phase-0-Baseline-Assessment.md
-│   ├── Phase-1-Identity-Foundation.md
-│   └── Phase-2-Endpoint-Protection.md
-│
 ├── Playbooks/
 │   ├── Module-1-Identity-Foundation.md
 │   ├── Module-2-Endpoint-Protection.md
@@ -833,16 +827,7 @@ SMB-Security-Framework/
 | Deploy-Sentinel.ps1 | Azure Sentinel deployment |
 | Deploy-Sentinel.json | Sentinel ARM template |
 
-### 3. Implementation Guides (`/Implementation-Guides/`)
-
-| Guide | Content |
-|-------|---------|
-| 00-Master-Implementation-Guide.md | Overall framework guidance |
-| Phase-0-Baseline-Assessment.md | Pre-implementation assessment |
-| Phase-1-Identity-Foundation.md | MFA and Conditional Access |
-| Phase-2-Endpoint-Protection.md | Defender, compliance, MAM |
-
-### 4. Playbooks (`/Playbooks/`)
+### 3. Playbooks (`/Playbooks/`)
 
 | Playbook | Content |
 |----------|---------|
@@ -851,7 +836,7 @@ SMB-Security-Framework/
 | Module-3-Data-Governance.md | Labels, DLP, retention |
 | Module-4-Security-Monitoring.md | Audit, Sentinel, Secure Score |
 
-### 5. Governance Templates (`/Governance-Templates/`) - 12 Documents
+### 4. Governance Templates (`/Governance-Templates/`) - 12 Documents
 
 - Master-Information-Security-Policy.md
 - Acceptable-Use-Policy.md
@@ -866,7 +851,7 @@ SMB-Security-Framework/
 - RACI-Matrix-Template.md
 - Security-Awareness-Training-Tracker.md
 
-### 6. Training Materials (`/Training-Materials/`)
+### 5. Training Materials (`/Training-Materials/`)
 
 | Folder | Contents |
 |--------|----------|
